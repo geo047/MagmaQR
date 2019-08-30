@@ -1,0 +1,28 @@
+
+# setup
+set.seed(101)
+n <- 100
+ngpu <- 4
+K <- matrix(sample(c(0,1), n*n, T), nrow=n)
+res  <- tcrossprod(K)
+
+# CPU based
+ library(MagmaQR)
+ MagmaQR::RunServer( matrixMaxDimension=n,  numGPUsWanted=ngpu, memName="/syevd_mem", semName="/syevd_sem", print=0)
+
+  qGPU  <- MagmaQR::qr_mgpu(res)
+
+ ## CPU 
+   qCPU  <- qr.Q(qr(res))
+
+
+   print(qGPU[1:5, 1:5])
+   print("---------------------")
+   print(qCPU[1:5, 1:5])
+
+
+
+
+
+
+

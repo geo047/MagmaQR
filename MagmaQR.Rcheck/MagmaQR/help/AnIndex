@@ -1,0 +1,6 @@
+GetServerArgs	GetServerArgs
+MagmaQR	MagmaQR
+MakeServer	MakeServer
+qr_mgpu	qr_mgpu
+RunServer	RunServer
+StopServer	StopServer

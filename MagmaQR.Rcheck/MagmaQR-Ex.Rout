@@ -1,0 +1,118 @@
+
+R version 3.6.1 (2019-07-05) -- "Action of the Toes"
+Copyright (C) 2019 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> pkgname <- "MagmaQR"
+> source(file.path(R.home("share"), "R", "examples-header.R"))
+> options(warn = 1)
+> library('MagmaQR')
+Loading required package: Rcpp
+MAGMA_EVD_CLIENT Info: server executable = /home/geo047/Magma/MagmaQR/MagmaQR.Rcheck/MagmaQR/bin/solve_server.exe Does not exist!, We will try to build it now.
+rm -f shmem_qr_server.o CStringManipulation.o
+rm -f qr_server ../bin/qr_server.exe 
+MAGMA_EVD_CLIENT Info: MakeServer() called as:  cd /home/geo047/Magma/MagmaQR/MagmaQR.Rcheck/MagmaQR/src ;  env MAGMA_HOME=/apps/magma/2.5.1a1-ipl64-cuda90 CUDA_ROOT=/apps/cuda/9.0.176  make all
+icpc -g -O3 -xHost -I../include  -I/apps/cuda/9.0.176/include -I/apps/magma/2.5.1a1-ipl64-cuda90/include  -DMAGMA_ILP64  -D_WITH_CUDA=1  -c -o shmem_qr_server.o shmem_qr_server.cpp
+icpc -g -O3 -xHost -I../include  -I/apps/cuda/9.0.176/include -I/apps/magma/2.5.1a1-ipl64-cuda90/include  -DMAGMA_ILP64  -D_WITH_CUDA=1  -c -o CStringManipulation.o CStringManipulation.cpp
+icpc  -o qr_server.exe shmem_qr_server.o CStringManipulation.o  -lOpenCL -L/apps/magma/2.5.1a1-ipl64-cuda90/lib -Wl,-rpath,/apps/magma/2.5.1a1-ipl64-cuda90/lib -lmagma  -lcuda -lcudart -Wl,-rpath,/apps/intel/mkl/2017.2.174/compilers_and_libraries_2017.2.174/linux/mkl/lib/intel64_lin  -lmkl_intel_ilp64    -lpthread -lrt 
+mkdir -p ../bin
+mv qr_server.exe ../bin
+	 Error: MAGMA_EVD_CLIENT - It looks like we failed to install the server executable.
+	 Error: Please set up an appropriate environment and set the <package_dir>/src/make.inc file variables.
+	 Error: This package requires the ILP64 version of the MAGMA library to be installed and MAGMA_HOME to be be set.
+	 Error: For the CUDA version of MAGMA we will also need CUDA_ROOT set.
+	 Error: Then call: MakeServer(environmentSetup=" env MAGMA_HOME=<path to magma> CUDA_ROOT=<path to cuda>", target="all") 
+	 Error: followed by: MakeServer(target="install")
+> 
+> base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
+> base::assign(".old_wd", base::getwd(), pos = 'CheckExEnv')
+> cleanEx()
+> nameEx("MagmaQR")
+> ### * MagmaQR
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: MagmaQR
+> ### Title: MagmaQR - provides a fast replacement for the eigen() function,
+> ###   using a 2 stage GPU based MAGMA library routine. Also provides a
+> ###   function that returns the sqrt and inverse sqrt of an input matrix.
+> ### Aliases: MagmaQR
+> ### Keywords: MagmaQR, magma, MAGMA, eigen, GPU, EVD
+> 
+> ### ** Examples
+> 
+> # setup
+> 
+> # setup
+> set.seed(101)
+> n <- 100
+> ngpu <- 4
+> K <- matrix(sample(c(0,1), n*n, TRUE ), nrow=n)
+> res  <- tcrossprod(K)
+> print(res[1:5,1:5])
+     [,1] [,2] [,3] [,4] [,5]
+[1,]   45   20   24   26   23
+[2,]   20   43   17   25   18
+[3,]   24   17   49   24   26
+[4,]   26   25   24   51   20
+[5,]   23   18   26   20   44
+> 
+> # CPU based
+>  library(MagmaQR)
+>  MagmaQR::RunServer( matrixMaxDimension=n,  numGPUsWanted=ngpu, memName="/syevd_mem", semName="/syevd_sem", print=0)
+[1] 0
+> 
+>   qGPU  <- MagmaQR::qr_mgpu(res)
+% MAGMA 2.5.1 alpha1 compiled for CUDA capability >= 3.0, 64-bit magma_int_t, 64-bit pointer.
+% CUDA runtime 9000, driver 10010. OpenMP threads 16. MKL 2017.0.2, MKL threads 16. 
+% device 0: Tesla P100-SXM2-16GB, 1480.5 MHz clock, 16280.9 MiB memory, capability 6.0
+% device 1: Tesla P100-SXM2-16GB, 1480.5 MHz clock, 16280.9 MiB memory, capability 6.0
+% device 2: Tesla P100-SXM2-16GB, 1480.5 MHz clock, 16280.9 MiB memory, capability 6.0
+% device 3: Tesla P100-SXM2-16GB, 1480.5 MHz clock, 16280.9 MiB memory, capability 6.0
+% Fri Aug 30 13:36:24 2019
+[
+  45.0000  20.0000  24.0000  26.0000  23.0000
+  20.0000  43.0000  17.0000  25.0000  18.0000
+  24.0000  17.0000  49.0000  24.0000  26.0000
+  26.0000  25.0000  24.0000  51.0000  20.0000
+  23.0000  18.0000  26.0000  20.0000  44.0000
+];
+ In here 
+ rvectors_ptr  afer dgeqrf_m
+[
+ -232.4048 -212.7064 -247.9510 -259.4352 -220.9507
+   0.0721 -46.9784 -17.0979 -25.5533 -15.4192
+   0.0865  -0.0428 -44.5306 -10.8436 -22.6682
+   0.0937   0.0436  -0.0300 -37.4406  -1.8107
+   0.0829  -0.0177   0.0525  -0.0615 -33.1651
+];
+ Q 
+[
+   1.0000   0.       0.       0.       0.    
+   0.       1.0000   0.       0.       0.    
+   0.       0.       1.0000   0.       0.    
+   0.       0.       0.       1.0000   0.    
+   0.       0.       0.       0.       1.0000
+];
+FINISHED ... 
+
+ *** caught segfault ***
+address 0x2aaaaaaf6000, cause 'memory not mapped'
+
+Traceback:
+ 1: MagmaQR::qr_mgpu(res)
+An irrecoverable exception occurred. R is aborting now ...
