@@ -368,6 +368,7 @@ int main(int argc, char* argv[])
 // All data is passed in via the static CSharedRegion object shrd_server
 int server_compute_qr_mgpu( hideprintlog hideorprint )
 {
+
   // Initialize magma and cublas
    magma_init();
 
@@ -381,7 +382,7 @@ int server_compute_qr_mgpu( hideprintlog hideorprint )
 
 
   magma_int_t n, n2, lwork, info = 0;  // define MAGMA_ILP64 to get these as 64 bit integers
-  double *work, *rvectors_ptr, *rvalues_ptr, *T  ;
+  double  *rvectors_ptr, *rvalues_ptr, *T  ;
 
   double *hA, *hR, *tau, *h_work;
   magmaDouble_ptr dA, dT;
@@ -417,6 +418,48 @@ int server_compute_qr_mgpu( hideprintlog hideorprint )
   magma_dsetmatrix(  n, n, rvectors_ptr , lda, dA, ldda, queue );
   magma_dprint_gpu(5,5, dA, n, queue);
 
+  // Get this to work then we will have success 
+ double *work;
+  magma_dgeqrf (n, n, rvectors_ptr, n, tau, work, -1, &info);
+  // 1.2 Allocate memory for the workspace
+  lwork =  (magma_int_t) work[0];
+  std::cout << " lwork = " << lwork << std::endl;   
+  delete work;
+  magma_dmalloc_cpu(&work, lwork);
+
+ 
+  // 1.3 Call QR factorization
+  magma_dgeqrf (n, n, rvectors_ptr, n, tau, work, lwork , &info);
+  magma_free_cpu (work);
+  std::cout << " QR factorisation ... 1 " << std::endl;
+  magma_dprint(5, 5, rvectors_ptr, n); 
+   
+  // 2. Generates an orthonormal matrix
+  // 2.1 Query size of the workspace (Check lapack documentation)
+
+  magma_dorgqr(n, n, n, rvectors_ptr , n, tau, work, -1, &info);
+ 
+  // 2.2 Allocate memory fo the workspace
+ lwork = (magma_int_t) work[0];
+ delete work; 
+ magma_dmalloc_cpu(&work, lwork);
+ 
+  // 2.3 compute the matrix Q
+  magma_dorgqr(n, n, n, rvectors_ptr , n, tau, work, lwork, &info);
+  std::cout << " Q ...  " << std::endl;
+  magma_dprint(5, 5, rvectors_ptr, n); 
+   
+  // release memory
+  magma_free_cpu (work);
+
+
+
+
+
+
+
+
+
   if (shrd_server->_numgpus == 1) {
      magma_dgeqrf_gpu( n, n, dA, ldda, tau, dT, &info );
      std::cout << " dA afer dgeqrf_gpu"  << std::endl;
@@ -428,7 +471,6 @@ int server_compute_qr_mgpu( hideprintlog hideorprint )
      magma_dprint_gpu(5,5, dA, n, queue);
 
 
-
   } else {
      std::cout << " In here " << std::endl;
 
@@ -437,52 +479,19 @@ int server_compute_qr_mgpu( hideprintlog hideorprint )
      std::cout << " rvectors_ptr  afer dgeqrf_m"  << std::endl;
       magma_dprint(5,5, rvectors_ptr , n);
 
- magma_dorgqr_m( n, n, n, rvectors_ptr , n , tau, dT, nb, &info );
+
+  magma_dorgqr_m( n, n, n, rvectors_ptr , n , tau, dT, nb, &info );
      std::cout << " Q "<< std::endl;
      magma_dprint(5,5, rvectors_ptr  , n );
 
+}
 
-  }
-
-
-
-  // ask for optimal size of work arrays 
-  magma_int_t nb;
-  nb = magma_get_dgeqrf_nb(n, n);
-  lwork = n*nb;
-
-  // mallocs
-  magma_dmalloc_cpu(&work, lwork);
-  magma_dmalloc_cpu(&tau, n);
-  magma_dmalloc_cpu(&T, nb*n);
-
-  if (shrd_server->_numgpus == 1) {
-     magma_dgeqrf( n, n, rvectors_ptr  , n   , tau, work, lwork, &info );
-     std::cout << " h_A afer dgeqrf"  << std::endl;
-     magma_dprint(5,5, rvectors_ptr, n);
-
-     magma_dorgqr2(n, n ,n , rvectors_ptr , n, tau,  &info );	
-     std::cout << " Q "<< std::endl;
-     magma_dprint(5,5, rvectors_ptr, n);
-
-
-
-  } else {
-     magma_dgeqrf_m(shrd_server->_numgpus  , n, n, rvectors_ptr  , n   , tau, work, lwork, &info );
-     std::cout << " h_A afer dgeqrf"  << std::endl;
-     magma_dprint(5,5, rvectors_ptr, n);
-     magma_dorgqr_m(n, n, n, rvectors_ptr, n, tau, T, nb, &info );	
-     std::cout << " Q "<< std::endl;
-     magma_dprint(5,5, rvectors_ptr, n);
-  }
 
   std::cout << "About to free memory ... " << std::endl;
   magma_free_cpu (work)  ;
   magma_free_cpu (tau)  ;
   magma_free_cpu (T)  ;
   magma_queue_destroy ( queue ); 
-
-*/
 
 
   std::cout << "FINISHED ... " << std::endl;

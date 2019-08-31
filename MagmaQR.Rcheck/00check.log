@@ -12,7 +12,11 @@ Subdirectory ‘MagmaQR/src’ contains apparent object files/libraries
   MagmaQR.so RcppExports.o shmem_qr_client.o
 Object files/libraries should not be included in a source package.
 * checking if there is a namespace ... OK
-* checking for executable files ... OK
+* checking for executable files ... WARNING
+Found the following executable file:
+  .git/objects/ca/8be35b1f8dcbc9f9d6893a4fdfa9c9ea5a3312
+Source packages should not contain undeclared executable files.
+See section ‘Package structure’ in the ‘Writing R Extensions’ manual.
 * checking for hidden files and directories ... NOTE
 Found the following hidden files and directories:
   inst/src/.shmem_qr_server.cpp.swp
@@ -185,45 +189,8 @@ The error most likely occurred in:
 [1] 0
 > 
 >   qGPU  <- MagmaQR::qr_mgpu(res)
-% MAGMA 2.5.1 alpha1 compiled for CUDA capability >= 3.0, 64-bit magma_int_t, 64-bit pointer.
-% CUDA runtime 9000, driver 10010. OpenMP threads 16. MKL 2017.0.2, MKL threads 16. 
-% device 0: Tesla P100-SXM2-16GB, 1480.5 MHz clock, 16280.9 MiB memory, capability 6.0
-% device 1: Tesla P100-SXM2-16GB, 1480.5 MHz clock, 16280.9 MiB memory, capability 6.0
-% device 2: Tesla P100-SXM2-16GB, 1480.5 MHz clock, 16280.9 MiB memory, capability 6.0
-% device 3: Tesla P100-SXM2-16GB, 1480.5 MHz clock, 16280.9 MiB memory, capability 6.0
-% Fri Aug 30 13:36:24 2019
-[
-  45.0000  20.0000  24.0000  26.0000  23.0000
-  20.0000  43.0000  17.0000  25.0000  18.0000
-  24.0000  17.0000  49.0000  24.0000  26.0000
-  26.0000  25.0000  24.0000  51.0000  20.0000
-  23.0000  18.0000  26.0000  20.0000  44.0000
-];
- In here 
- rvectors_ptr  afer dgeqrf_m
-[
- -232.4048 -212.7064 -247.9510 -259.4352 -220.9507
-   0.0721 -46.9784 -17.0979 -25.5533 -15.4192
-   0.0865  -0.0428 -44.5306 -10.8436 -22.6682
-   0.0937   0.0436  -0.0300 -37.4406  -1.8107
-   0.0829  -0.0177   0.0525  -0.0615 -33.1651
-];
- Q 
-[
-   1.0000   0.       0.       0.       0.    
-   0.       1.0000   0.       0.       0.    
-   0.       0.       1.0000   0.       0.    
-   0.       0.       0.       1.0000   0.    
-   0.       0.       0.       0.       1.0000
-];
-FINISHED ... 
-
- *** caught segfault ***
-address 0x2aaaaaaf6000, cause 'memory not mapped'
-
-Traceback:
- 1: MagmaQR::qr_mgpu(res)
-An irrecoverable exception occurred. R is aborting now ...
+Error: catch_signal() called so we will now terminate the server and clean up the client object!
+ MAGMA_EVD_CLIENT Info: CSharedMemory->ExitServer() has just requested server to exit 
 * checking PDF version of manual ... OK
 * DONE
-Status: 1 ERROR, 6 WARNINGs, 6 NOTEs
+Status: 1 ERROR, 7 WARNINGs, 6 NOTEs
