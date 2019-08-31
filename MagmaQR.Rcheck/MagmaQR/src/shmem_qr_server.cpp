@@ -457,19 +457,17 @@ int server_compute_qr_mgpu( hideprintlog hideorprint )
 //  magma_dgeqrf (n, n, rvectors_ptr, n, tau, work, -1, &info);
 //  lwork =  (magma_int_t) work[0];
 double * h_work;
-magma_dmalloc_pinned(&h_work, lwork);
+magma_dmalloc_cpu(&h_work, lwork);
 
 
 
-  // magma_dgeqrf_m(shrd_server->_numgpus  , n, n, rvectors_ptr  , n   , tau, h_work, lwork, &info );
-  magma_dgeqrf( n, n, rvectors_ptr  , n   , tau, h_work, lwork, &info );
+  magma_dgeqrf_m(shrd_server->_numgpus  , n, n, rvectors_ptr  , n   , tau, h_work, lwork, &info );
   std::cout << " QR factorisation ... 1 " << std::endl;
   magma_dprint(5, 5, rvectors_ptr, n);
 
-//  magma_dorgqr_m(n, n, n, rvectors_ptr , n, tau, h_work, lwork  ,   &info);
+  magma_dorgqr_m(n, n, n, rvectors_ptr , n, tau, h_work, lwork  ,   &info);
   std::cout << "What is going on here ... " << std::endl;
   magma_dprint(5,5, rvectors_ptr , n);
-  magma_dorgqr2(n, n, n, rvectors_ptr , n, tau,  &info);
 
 std::cout << " --------- " << n << std::endl;
 
@@ -477,8 +475,6 @@ std::cout << " --------- " << n << std::endl;
 
 
 
-  std::cout << "What is going on here ... " << std::endl;
-  magma_dprint(5,5, rvectors_ptr, n);
 //  magma_dorgqr(n, n, n, rvectors_ptr , n, tau, dT, nb, &info);
 //  magma_dprint(5,5, rvectors_ptr, n);
 
