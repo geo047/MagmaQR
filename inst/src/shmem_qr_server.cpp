@@ -440,7 +440,7 @@ int server_compute_qr_mgpu( hideprintlog hideorprint )
   n2 = lda*n;
   min_mn = n;
   nb = magma_get_dgeqrf_nb( n, n );
-   lwork  = n*nb;
+  lwork  = n*nb;
 
   magma_dmalloc_cpu( &tau,     n  );
 // ---->   double *d_work;
@@ -453,13 +453,11 @@ int server_compute_qr_mgpu( hideprintlog hideorprint )
 
 
 
-  double work[1];
-  magma_dgeqrf (n, n, rvectors_ptr, n, tau, work, -1, &info);
-  // 1.2 Allocate memory for the workspace
-  lwork =  (magma_int_t) work[0];
-  double * h_work;
-  // ---> magma_dmalloc_cpu(&h_work, lwork);
-   magma_dmalloc_pinned(&h_work, lwork);
+//  double work[1];
+//  magma_dgeqrf (n, n, rvectors_ptr, n, tau, work, -1, &info);
+//  lwork =  (magma_int_t) work[0];
+double * h_work;
+magma_dmalloc_pinned(&h_work, lwork);
 
 
 

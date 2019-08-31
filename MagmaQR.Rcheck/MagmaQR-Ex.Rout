@@ -83,7 +83,7 @@ mv qr_server.exe ../bin
 % device 1: Tesla P100-SXM2-16GB, 1480.5 MHz clock, 16280.9 MiB memory, capability 6.0
 % device 2: Tesla P100-SXM2-16GB, 1480.5 MHz clock, 16280.9 MiB memory, capability 6.0
 % device 3: Tesla P100-SXM2-16GB, 1480.5 MHz clock, 16280.9 MiB memory, capability 6.0
-% Sat Aug 31 20:17:14 2019
+% Sat Aug 31 20:50:52 2019
  QR factorisation ... 1 
 [
  -232.4048 -212.7064 -247.9510 -259.4352 -220.9507
