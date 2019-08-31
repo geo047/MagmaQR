@@ -77,5 +77,42 @@ mv qr_server.exe ../bin
 [1] 0
 > 
 >   qGPU  <- MagmaQR::qr_mgpu(res)
-Error: catch_signal() called so we will now terminate the server and clean up the client object!
- MAGMA_EVD_CLIENT Info: CSharedMemory->ExitServer() has just requested server to exit 
+% MAGMA 2.5.1 alpha1 compiled for CUDA capability >= 3.0, 64-bit magma_int_t, 64-bit pointer.
+% CUDA runtime 9000, driver 10010. OpenMP threads 16. MKL 2017.0.2, MKL threads 16. 
+% device 0: Tesla P100-SXM2-16GB, 1480.5 MHz clock, 16280.9 MiB memory, capability 6.0
+% device 1: Tesla P100-SXM2-16GB, 1480.5 MHz clock, 16280.9 MiB memory, capability 6.0
+% device 2: Tesla P100-SXM2-16GB, 1480.5 MHz clock, 16280.9 MiB memory, capability 6.0
+% device 3: Tesla P100-SXM2-16GB, 1480.5 MHz clock, 16280.9 MiB memory, capability 6.0
+% Sat Aug 31 20:17:14 2019
+ QR factorisation ... 1 
+[
+ -232.4048 -212.7064 -247.9510 -259.4352 -220.9507
+   0.0721 -46.9784 -17.0979 -25.5533 -15.4192
+   0.0865  -0.0428 -44.5306 -10.8436 -22.6682
+   0.0937   0.0436  -0.0300 -37.4406  -1.8107
+   0.0829  -0.0177   0.0525  -0.0615 -33.1651
+];
+What is going on here ... 
+[
+ -232.4048 -212.7064 -247.9510 -259.4352 -220.9507
+   0.0721 -46.9784 -17.0979 -25.5533 -15.4192
+   0.0865  -0.0428 -44.5306 -10.8436 -22.6682
+   0.0937   0.0436  -0.0300 -37.4406  -1.8107
+   0.0829  -0.0177   0.0525  -0.0615 -33.1651
+];
+ --------- 100
+What is going on here ... 
+
+ *** caught segfault ***
+address 0x2aaaaaaf6000, cause 'memory not mapped'
+
+Traceback:
+ 1: MagmaQR::qr_mgpu(res)
+An irrecoverable exception occurred. R is aborting now ...
+[
+  -0.1936   0.4510   0.3660   0.2335   0.1239
+  -0.0861  -0.5257   0.2992   0.2007   0.0595
+  -0.1033   0.1057  -0.5659   0.1663   0.2326
+  -0.1119  -0.0256   0.0938  -0.5966   0.1226
+  -0.0990   0.0649  -0.0578   0.1240  -0.6649
+];
