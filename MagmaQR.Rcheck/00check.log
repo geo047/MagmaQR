@@ -195,7 +195,7 @@ The error most likely occurred in:
 % device 1: Tesla P100-SXM2-16GB, 1480.5 MHz clock, 16280.9 MiB memory, capability 6.0
 % device 2: Tesla P100-SXM2-16GB, 1480.5 MHz clock, 16280.9 MiB memory, capability 6.0
 % device 3: Tesla P100-SXM2-16GB, 1480.5 MHz clock, 16280.9 MiB memory, capability 6.0
-% Sat Aug 31 21:03:04 2019
+% Sat Aug 31 21:14:41 2019
  QR factorisation ... 1 
 [
  -232.4048 -212.7064 -247.9510 -259.4352 -220.9507
@@ -213,6 +213,7 @@ What is going on here ...
   -0.0990   0.0649  -0.0578   0.1240  -0.6649
 ];
  --------- 100
+------------------- FINISHED ... 0
 
  *** caught segfault ***
 address 0x2aaaaaaf6000, cause 'memory not mapped'

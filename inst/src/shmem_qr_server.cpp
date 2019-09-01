@@ -443,44 +443,21 @@ int server_compute_qr_mgpu( hideprintlog hideorprint )
   lwork  = n*nb;
 
   magma_dmalloc_cpu( &tau,     n  );
-// ---->   double *d_work;
-// ---->   magma_dmalloc( &d_work, lwork  );
-
-// ----- >   magma_dmalloc( &dA,     ldda*n );
-// ------->   magma_dmalloc( &dT,     ( 2*min_mn + magma_roundup( n, 32 ) )*nb );
-
-// ---->  magma_dsetmatrix(  n, n, rvectors_ptr , lda, dA, ldda, queue );
-
-
-
-//  double work[1];
-//  magma_dgeqrf (n, n, rvectors_ptr, n, tau, work, -1, &info);
-//  lwork =  (magma_int_t) work[0];
-double * h_work;
-magma_dmalloc_cpu(&h_work, lwork);
-
-
-
-  magma_dgeqrf_m(shrd_server->_numgpus  , n, n, rvectors_ptr  , n   , tau, h_work, lwork, &info );
-  std::cout << " QR factorisation ... 1 " << std::endl;
-  magma_dprint(5, 5, rvectors_ptr, n);
-
-  magma_dorgqr_m(n, n, n, rvectors_ptr , n, tau, h_work, lwork  ,   &info);
-  std::cout << "What is going on here ... " << std::endl;
-  magma_dprint(5,5, rvectors_ptr , n);
-
-std::cout << " --------- " << n << std::endl;
 
 
 
 
 
-//  magma_dorgqr(n, n, n, rvectors_ptr , n, tau, dT, nb, &info);
-//  magma_dprint(5,5, rvectors_ptr, n);
 
-return 0;
+
+
 
   if (shrd_server->_numgpus == 1) {
+
+     magma_dmalloc( &dA,     ldda*n );
+     magma_dmalloc( &dT,     ( 2*min_mn + magma_roundup( n, 32 ) )*nb );
+     magma_dsetmatrix(  n, n, rvectors_ptr , lda, dA, ldda, queue );
+
      magma_dgeqrf_gpu( n, n, dA, ldda, tau, dT, &info );
      std::cout << " dA afer dgeqrf_gpu"  << std::endl;
      magma_dprint_gpu(5,5, dA, n , queue);
@@ -503,56 +480,30 @@ return 0;
   
   } else {
 
-  double work[1];
-  magma_dgeqrf (n, n, rvectors_ptr, n, tau, work, -1, &info);
-  // 1.2 Allocate memory for the workspace
-  lwork =  (magma_int_t) work[0];
-  double * h_work;
-  // magma_dmalloc_pinned(&h_work, lwork);
-  std::cout << lwork << std::endl;
-  magma_dmalloc_cpu(&h_work, lwork);
+
+   double * h_work;
+   magma_dmalloc_cpu(&h_work, lwork);
+
+   magma_dgeqrf_m(shrd_server->_numgpus  , n, n, rvectors_ptr  , n   , tau, h_work, lwork, &info );
+   std::cout << " QR factorisation ... 1 " << std::endl;
+   magma_dprint(5, 5, rvectors_ptr, n);
+
+   magma_dorgqr_m(n, n, n, rvectors_ptr , n, tau, h_work, lwork  ,   &info);
+   std::cout << "What is going on here ... " << std::endl;
+   magma_dprint(5,5, rvectors_ptr , n);
+
+   std::cout << " --------- " << n << std::endl;
+
+   magma_free_cpu  (h_work); 
+   magma_free_cpu  (tau); 
 
 
- 
-  // magma_dgeqrf_m(shrd_server->_numgpus  , n, n, rvectors_ptr  , n   , tau, h_work, lwork, &info );
-  magma_dgeqrf( n, n, rvectors_ptr  , n   , tau, h_work, lwork, &info );
-  std::cout << " QR factorisation ... 1 " << std::endl;
-  magma_dprint(5, 5, rvectors_ptr, n); 
-
-std::cout << "In here" << std::endl;
-//  magma_dorgqr_m(n, n, n, rvectors_ptr , n, tau, h_work, lwork  ,   &info);
-std::cout << "In here" << std::endl;
-  std::cout << "What is going on here ... " << std::endl;
-  magma_dprint(5,5, rvectors_ptr, n);
-  magma_dorgqr2(n, n, n, rvectors_ptr , n, tau,  &info);
-  std::cout << "What is going on here ... " << std::endl;
-  magma_dprint(5,5, rvectors_ptr, n);
-//  magma_dorgqr(n, n, n, rvectors_ptr , n, tau, dT, nb, &info);
-//  magma_dprint(5,5, rvectors_ptr, n);
-   
-
- //   magma_free_cpu ( dA )  ;
-//    magma_free_cpu ( tau )  ;
-
-
-
-/*
-     magma_dgeqrf_m(shrd_server->_numgpus  , n, n, rvectors_ptr  , n   , tau, h_work, lwork, &info );
-     std::cout << " rvectors_ptr  afer dgeqrf_m"  << std::endl;
-      magma_dprint(5,5, rvectors_ptr , n);
-
-
-  magma_dorgqr_m( n, n, n, rvectors_ptr , n , tau, dT, nb, &info );
-     std::cout << " Q "<< std::endl;
-     magma_dprint(5,5, rvectors_ptr  , n );
-
-*/
 }
 
 
   magma_queue_destroy ( queue ); 
 
-  std::cout << "FINISHED ... " << std::endl;
+  std::cout << "------------------- FINISHED ... " << info << std::endl;
   return (info) ;
 
 
