@@ -247,16 +247,12 @@ Rcpp::NumericMatrix  qr_mgpu(Rcpp::NumericMatrix matrix, bool symmetric=true,  b
     
       
       // Create storage for the eigenvalues to be returned to R
-      Rcpp::NumericMatrix invmat(matrix.length()) ;      
+  std::flush(_PRINTSTD) ;
+      Rcpp::NumericMatrix invmat(matrix.nrow(), matrix.ncol() ) ;      
      // Copy back the inverse values
       // offset to get evalues is numbytes 
-      shrd_client->copy_shmem_into_matrix(invmat.begin(), invmat.length() * sizeof(double) , 0) ;
-  _PRINTSTD << "----- 0000 In Here 0000 -------   " << std::endl  ;
-         std::flush(_PRINTSTD) ;
-  _PRINTSTD << invmat.length() ;
-  std::flush(_PRINTSTD) ;
+      shrd_client->copy_shmem_into_matrix(invmat.begin(), invmat.nrow() * invmat.ncol()  * sizeof(double) , 0) ;
 
-      // AWG ---> not sure which is correct shrd_client->copy_shmem_into_matrix(invmat.begin(), invmat.length() * sizeof(double) , numbytes) ;
           
     return (invmat ) ;
    

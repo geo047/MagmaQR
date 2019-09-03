@@ -1,10 +1,8 @@
 GetServerArgs           Initialise shared memory on client and obtain
                         server launch string.
 MagmaQR                 MagmaQR - provides a fast replacement for the
-                        eigen() function, using a 2 stage GPU based
-                        MAGMA library routine. Also provides a function
-                        that returns the sqrt and inverse sqrt of an
-                        input matrix.
+                        qr() function, using GPU based MAGMA library
+                        routine.
 MakeServer              Creates the server executable.
 RunServer               Creates the R client side shared memory region
                         and then launches a server process which is

@@ -12,9 +12,8 @@ nameEx("MagmaQR")
 flush(stderr()); flush(stdout())
 
 ### Name: MagmaQR
-### Title: MagmaQR - provides a fast replacement for the eigen() function,
-###   using a 2 stage GPU based MAGMA library routine. Also provides a
-###   function that returns the sqrt and inverse sqrt of an input matrix.
+### Title: MagmaQR - provides a fast replacement for the qr() function,
+###   using GPU based MAGMA library routine.
 ### Aliases: MagmaQR
 ### Keywords: MagmaQR, magma, MAGMA, eigen, GPU, EVD
 
@@ -24,7 +23,7 @@ flush(stderr()); flush(stdout())
 
 # setup
 set.seed(101)
-n <- 100
+n <- 10000
 ngpu <- 4
 K <- matrix(sample(c(0,1), n*n, TRUE ), nrow=n)
 res  <- tcrossprod(K)
@@ -37,13 +36,15 @@ print(res[1:5,1:5])
   qGPU  <- MagmaQR::qr_mgpu(res)
 
  ## CPU 
-   qCPU  <- qr.Q(qr(res))
+ qCPU  <- qr.Q(qr(res))
 
 
    print(qGPU[1:5, 1:5])
    print("---------------------")
    print(qCPU[1:5, 1:5])
 
+
+   print(c("Test Sum = ", sum(qGPU - qCPU) ))
 
  
   StopServer()  # Client signals to server to terminate

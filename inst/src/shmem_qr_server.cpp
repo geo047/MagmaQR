@@ -70,6 +70,25 @@ static CSharedRegion * shrd_server = NULL ;
 
 // External Function definitions
 extern "C" {
+magma_int_t magma_dormqr_m ( magma_int_t  ngpu,
+magma_side_t  side,
+magma_trans_t  trans,
+magma_int_t  m,
+magma_int_t  n,
+magma_int_t  k,
+double *  A,
+magma_int_t  lda,
+double *  tau,
+double *  C,
+magma_int_t  ldc,
+double *  work,
+magma_int_t  lwork,
+magma_int_t *  info 
+ );  
+
+
+
+
 magma_int_t magma_dorgqr2  (  magma_int_t   m,
 magma_int_t   n,
 magma_int_t   k,
@@ -404,16 +423,18 @@ int main(int argc, char* argv[])
 // All data is passed in via the static CSharedRegion object shrd_server
 int server_compute_qr_mgpu( hideprintlog hideorprint )
 {
+
+
+
+
   // Initialize magma and cublas
     magma_init();
-
    magma_print_environment();
 
    // Initialize the queue
    magma_queue_t queue = NULL ;
    magma_int_t dev =0;
    magma_queue_create (dev ,& queue );
-
 
 
   magma_int_t n, n2, lwork, info = 0;  // define MAGMA_ILP64 to get these as 64 bit integers
@@ -433,7 +454,6 @@ int server_compute_qr_mgpu( hideprintlog hideorprint )
   rvectors_ptr = shrd_server->_vectors ;  // was rx
 
 
-
   magma_int_t lda, ldda, min_mn, nb;
   lda  = n;
   ldda = n;  // multiple of 32 by default
@@ -442,13 +462,8 @@ int server_compute_qr_mgpu( hideprintlog hideorprint )
   nb = magma_get_dgeqrf_nb( n, n );
   lwork  = n*nb;
 
+  // magma_dmalloc_cpu( &tau,     n  );
   magma_dmalloc_cpu( &tau,     n  );
-
-
-
-
-
-
 
 
 
@@ -457,6 +472,10 @@ int server_compute_qr_mgpu( hideprintlog hideorprint )
      magma_dmalloc( &dA,     ldda*n );
      magma_dmalloc( &dT,     ( 2*min_mn + magma_roundup( n, 32 ) )*nb );
      magma_dsetmatrix(  n, n, rvectors_ptr , lda, dA, ldda, queue );
+     std::cout << " dA afer dgeqrf_gpu"  << std::endl;
+     magma_dprint_gpu(5,5, dA, n , queue);
+
+
 
      magma_dgeqrf_gpu( n, n, dA, ldda, tau, dT, &info );
      std::cout << " dA afer dgeqrf_gpu"  << std::endl;
@@ -481,16 +500,52 @@ int server_compute_qr_mgpu( hideprintlog hideorprint )
   } else {
 
 
-   double * h_work;
-   magma_dmalloc_cpu(&h_work, lwork);
+     // query for workspace size
+     lwork = -1;
+     double tmp[1];
+     magma_dgeqrf( n, n, NULL, n, NULL, tmp, lwork, &info );
+     lwork = tmp[0];
+     std::cout << "lwork = = " << lwork << std::endl;
+
+
+    double * h_work ;
+    magma_dmalloc_cpu(&h_work, lwork);
+
 
    magma_dgeqrf_m(shrd_server->_numgpus  , n, n, rvectors_ptr  , n   , tau, h_work, lwork, &info );
+  std::cout << "------------------- dgeqrf_m  ... " << info << std::endl;
    std::cout << " QR factorisation ... 1 " << std::endl;
    magma_dprint(5, 5, rvectors_ptr, n);
 
-   magma_dorgqr_m(n, n, n, rvectors_ptr , n, tau, h_work, lwork  ,   &info);
+   std::cout << "About to assign C " << std::endl;
+   double *   cmat;
+   magma_dmalloc_cpu(&cmat, n2);
+   for( magma_int_t col=0; col < n; col++){
+      for( magma_int_t row=0; row< n; row++){
+      if( row == col){
+          cmat[row + n * col] = 1;
+      } else {
+          cmat[row + n * col] = 0;
+
+      }
+     }
+   }
+
+
+// This works --> magma_dorgqr2 ( n, n, n, rvectors_ptr , n ,  tau, &info );  
+// This does not work --->  magma_dorgqr_m(n, n, n, rvectors_ptr , n, tau, h_work, nb  ,   &info);
+   std::cout << "About to run dormqr_m ...  " << std::endl;
+magma_dormqr_m  ( shrd_server->_numgpus , MagmaLeft, MagmaNoTrans, n, n, n, rvectors_ptr, n, tau, cmat , n, h_work, lwork, &info ) ;	
+
+  std::cout << "-------------------  dorqqr_m  ... " << info << std::endl;
    std::cout << "What is going on here ... " << std::endl;
+   magma_dprint(5,5, cmat , n);
+
+
+   std::cout << "About to copy cmat to rvectors_ptr  ... " << std::endl;
+lapackf77_dlacpy( MagmaFullStr ,&n ,&n,cmat  ,&n, rvectors_ptr ,&n); // a- >r
    magma_dprint(5,5, rvectors_ptr , n);
+
 
    std::cout << " --------- " << n << std::endl;
 
@@ -503,9 +558,7 @@ int server_compute_qr_mgpu( hideprintlog hideorprint )
 
   magma_queue_destroy ( queue ); 
 
-  std::cout << "------------------- FINISHED ... " << info << std::endl;
   return (info) ;
-
 
 
 }

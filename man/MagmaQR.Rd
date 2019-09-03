@@ -2,7 +2,7 @@
 \alias{MagmaQR}
 \docType{package}
 \title{
- MagmaQR - provides a fast replacement for the eigen() function, using a 2 stage GPU based MAGMA library routine. Also provides a function that returns the sqrt and inverse sqrt of an input matrix.
+ MagmaQR - provides a fast replacement for the qr() function, using  GPU based MAGMA library routine. 
 }
 \description{
 Implements the symmetric eigenvalue decomposition using the MAGMA library (http://icl.cs.utk.edu/magma/index.html) 2-stage multi-GPU implementation with 64 bit integer interface. Currently only for real symmetric matricies. In this case it provides a direct replacement for R function eigen(symmetric=T) and also provides an efficient function for producing the square root and inverse square root of the input matrix. The package uses the 64 bit integer MAGMA library by a client-server shared memory architecture. This removes the problem that can arrise with larger datasets where R only provides the 32 bit BLAS/LAPACK interface.  The server side code checks how many GPUs are present so the client side R package code does not require CUDA/other interface to be present. The server side code requires the MAGMA library to be available (http://icl.cs.utk.edu/magma/) compiled as position independent code (shared library) with a multi-threaded high performance LAPACK and -DMAGMA_ILP64 defined (an example make.inc file should be available in MAGMA download package). The server code also requires an OpenCL library to be installed which is used to get the number of GPUs present on a system. This package can be used in conjunction with HiPLARb and HiPLARM that require high performance, but single-threaded BLAS routines, which will then degrade the performance of some routines (such as eigen() and possibly svd()) which require a multi threaded BLAS to operate effectively.
@@ -92,7 +92,7 @@ eigen
 
 # setup
 set.seed(101)
-n <- 100
+n <- 10000
 ngpu <- 4
 K <- matrix(sample(c(0,1), n*n, TRUE ), nrow=n)
 res  <- tcrossprod(K)
@@ -105,13 +105,15 @@ print(res[1:5,1:5])
   qGPU  <- MagmaQR::qr_mgpu(res)
 
  ## CPU 
-   qCPU  <- qr.Q(qr(res))
+ qCPU  <- qr.Q(qr(res))
 
 
    print(qGPU[1:5, 1:5])
    print("---------------------")
    print(qCPU[1:5, 1:5])
 
+
+   print(c("Test Sum = ", sum(qGPU - qCPU) ))
 
  
   StopServer()  # Client signals to server to terminate

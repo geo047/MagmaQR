@@ -154,73 +154,7 @@ GNU make is a SystemRequirements.
 * checking for portable use of $(BLAS_LIBS) and $(LAPACK_LIBS) ... OK
 * checking include directives in Makefiles ... OK
 * checking compiled code ... OK
-* checking examples ... ERROR
-Running examples in ‘MagmaQR-Ex.R’ failed
-The error most likely occurred in:
-
-> ### Name: MagmaQR
-> ### Title: MagmaQR - provides a fast replacement for the eigen() function,
-> ###   using a 2 stage GPU based MAGMA library routine. Also provides a
-> ###   function that returns the sqrt and inverse sqrt of an input matrix.
-> ### Aliases: MagmaQR
-> ### Keywords: MagmaQR, magma, MAGMA, eigen, GPU, EVD
-> 
-> ### ** Examples
-> 
-> # setup
-> 
-> # setup
-> set.seed(101)
-> n <- 100
-> ngpu <- 4
-> K <- matrix(sample(c(0,1), n*n, TRUE ), nrow=n)
-> res  <- tcrossprod(K)
-> print(res[1:5,1:5])
-     [,1] [,2] [,3] [,4] [,5]
-[1,]   45   20   24   26   23
-[2,]   20   43   17   25   18
-[3,]   24   17   49   24   26
-[4,]   26   25   24   51   20
-[5,]   23   18   26   20   44
-> 
-> # CPU based
->  library(MagmaQR)
->  MagmaQR::RunServer( matrixMaxDimension=n,  numGPUsWanted=ngpu, memName="/syevd_mem", semName="/syevd_sem", print=0)
-[1] 0
-> 
->   qGPU  <- MagmaQR::qr_mgpu(res)
-% MAGMA 2.5.1 alpha1 compiled for CUDA capability >= 3.0, 64-bit magma_int_t, 64-bit pointer.
-% CUDA runtime 9000, driver 10010. OpenMP threads 16. MKL 2017.0.2, MKL threads 16. 
-% device 0: Tesla P100-SXM2-16GB, 1480.5 MHz clock, 16280.9 MiB memory, capability 6.0
-% device 1: Tesla P100-SXM2-16GB, 1480.5 MHz clock, 16280.9 MiB memory, capability 6.0
-% device 2: Tesla P100-SXM2-16GB, 1480.5 MHz clock, 16280.9 MiB memory, capability 6.0
-% device 3: Tesla P100-SXM2-16GB, 1480.5 MHz clock, 16280.9 MiB memory, capability 6.0
-% Sat Aug 31 21:14:41 2019
- QR factorisation ... 1 
-[
- -232.4048 -212.7064 -247.9510 -259.4352 -220.9507
-   0.0721 -46.9784 -17.0979 -25.5533 -15.4192
-   0.0865  -0.0428 -44.5306 -10.8436 -22.6682
-   0.0937   0.0436  -0.0300 -37.4406  -1.8107
-   0.0829  -0.0177   0.0525  -0.0615 -33.1651
-];
-What is going on here ... 
-[
-  -0.1936   0.4510   0.3660   0.2335   0.1239
-  -0.0861  -0.5257   0.2992   0.2007   0.0595
-  -0.1033   0.1057  -0.5659   0.1663   0.2326
-  -0.1119  -0.0256   0.0938  -0.5966   0.1226
-  -0.0990   0.0649  -0.0578   0.1240  -0.6649
-];
- --------- 100
-------------------- FINISHED ... 0
-
- *** caught segfault ***
-address 0x2aaaaaaf6000, cause 'memory not mapped'
-
-Traceback:
- 1: MagmaQR::qr_mgpu(res)
-An irrecoverable exception occurred. R is aborting now ...
+* checking examples ... OK
 * checking PDF version of manual ... OK
 * DONE
-Status: 1 ERROR, 7 WARNINGs, 6 NOTEs
+Status: 7 WARNINGs, 6 NOTEs

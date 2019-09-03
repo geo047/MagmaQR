@@ -47,9 +47,8 @@ mv qr_server.exe ../bin
 > flush(stderr()); flush(stdout())
 > 
 > ### Name: MagmaQR
-> ### Title: MagmaQR - provides a fast replacement for the eigen() function,
-> ###   using a 2 stage GPU based MAGMA library routine. Also provides a
-> ###   function that returns the sqrt and inverse sqrt of an input matrix.
+> ### Title: MagmaQR - provides a fast replacement for the qr() function,
+> ###   using GPU based MAGMA library routine.
 > ### Aliases: MagmaQR
 > ### Keywords: MagmaQR, magma, MAGMA, eigen, GPU, EVD
 > 
@@ -59,17 +58,17 @@ mv qr_server.exe ../bin
 > 
 > # setup
 > set.seed(101)
-> n <- 100
+> n <- 10000
 > ngpu <- 4
 > K <- matrix(sample(c(0,1), n*n, TRUE ), nrow=n)
 > res  <- tcrossprod(K)
 > print(res[1:5,1:5])
      [,1] [,2] [,3] [,4] [,5]
-[1,]   45   20   24   26   23
-[2,]   20   43   17   25   18
-[3,]   24   17   49   24   26
-[4,]   26   25   24   51   20
-[5,]   23   18   26   20   44
+[1,] 5028 2535 2456 2428 2477
+[2,] 2535 5035 2388 2405 2480
+[3,] 2456 2388 4893 2401 2423
+[4,] 2428 2405 2401 4891 2423
+[5,] 2477 2480 2423 2423 4979
 > 
 > # CPU based
 >  library(MagmaQR)
@@ -83,29 +82,84 @@ mv qr_server.exe ../bin
 % device 1: Tesla P100-SXM2-16GB, 1480.5 MHz clock, 16280.9 MiB memory, capability 6.0
 % device 2: Tesla P100-SXM2-16GB, 1480.5 MHz clock, 16280.9 MiB memory, capability 6.0
 % device 3: Tesla P100-SXM2-16GB, 1480.5 MHz clock, 16280.9 MiB memory, capability 6.0
-% Sat Aug 31 21:14:41 2019
+% Tue Sep  3 13:29:29 2019
+lwork = = 1280000
+------------------- dgeqrf_m  ... 0
  QR factorisation ... 1 
 [
- -232.4048 -212.7064 -247.9510 -259.4352 -220.9507
-   0.0721 -46.9784 -17.0979 -25.5533 -15.4192
-   0.0865  -0.0428 -44.5306 -10.8436 -22.6682
-   0.0937   0.0436  -0.0300 -37.4406  -1.8107
-   0.0829  -0.0177   0.0525  -0.0615 -33.1651
+ -251444.4196 -251729.5512 -244636.9080 -244564.4296 -248942.3280
+   0.0099 -5013.3352 -2287.5062 -2389.9858 -2489.2171
+   0.0096  -0.0062 -4366.1559 -1498.0089 -1490.4446
+   0.0095  -0.0003   0.0090 -4097.4361 -1047.5186
+   0.0097   0.0032   0.0043   0.0035 -3976.6509
 ];
+About to assign C 
+About to run dormqr_m ...  
+-------------------  dorqqr_m  ... 0
 What is going on here ... 
 [
-  -0.1936   0.4510   0.3660   0.2335   0.1239
-  -0.0861  -0.5257   0.2992   0.2007   0.0595
-  -0.1033   0.1057  -0.5659   0.1663   0.2326
-  -0.1119  -0.0256   0.0938  -0.5966   0.1226
-  -0.0990   0.0649  -0.0578   0.1240  -0.6649
+  -0.0200   0.4984   0.2968   0.2018   0.1526
+  -0.0101  -0.4981   0.2789   0.2034   0.1612
+  -0.0098   0.0141  -0.5808   0.2011   0.1580
+  -0.0097   0.0051  -0.0116  -0.6161   0.1586
+  -0.0099  -0.0000  -0.0030  -0.0023  -0.6336
 ];
- --------- 100
-------------------- FINISHED ... 0
-
- *** caught segfault ***
-address 0x2aaaaaaf6000, cause 'memory not mapped'
-
-Traceback:
- 1: MagmaQR::qr_mgpu(res)
-An irrecoverable exception occurred. R is aborting now ...
+About to copy cmat to rvectors_ptr  ... 
+[
+  -0.0200   0.4984   0.2968   0.2018   0.1526
+  -0.0101  -0.4981   0.2789   0.2034   0.1612
+  -0.0098   0.0141  -0.5808   0.2011   0.1580
+  -0.0097   0.0051  -0.0116  -0.6161   0.1586
+  -0.0099  -0.0000  -0.0030  -0.0023  -0.6336
+];
+ --------- 10000
+> 
+>  ## CPU 
+>  qCPU  <- qr.Q(qr(res))
+> 
+> 
+>    print(qGPU[1:5, 1:5])
+             [,1]          [,2]         [,3]         [,4]       [,5]
+[1,] -0.019996467  4.984110e-01  0.296772613  0.201750843  0.1525537
+[2,] -0.010081751 -4.980966e-01  0.278910672  0.203363972  0.1611700
+[3,] -0.009767566  1.411935e-02 -0.580783415  0.201119158  0.1580134
+[4,] -0.009656210  5.136958e-03 -0.011562936 -0.616090269  0.1585888
+[5,] -0.009851084 -3.812712e-05 -0.002971527 -0.002253326 -0.6336398
+>    print("---------------------")
+[1] "---------------------"
+>    print(qCPU[1:5, 1:5])
+             [,1]          [,2]         [,3]         [,4]       [,5]
+[1,] -0.019996467  4.984110e-01  0.296772613  0.201750843  0.1525537
+[2,] -0.010081751 -4.980966e-01  0.278910672  0.203363972  0.1611700
+[3,] -0.009767566  1.411935e-02 -0.580783415  0.201119158  0.1580134
+[4,] -0.009656210  5.136958e-03 -0.011562936 -0.616090269  0.1585888
+[5,] -0.009851084 -3.812712e-05 -0.002971527 -0.002253326 -0.6336398
+> 
+> 
+>    print(c("Test Sum = ", sum(qGPU - qCPU) ))
+[1] "Test Sum = "         "-0.0132673890512064"
+> 
+>  
+>   StopServer()  # Client signals to server to terminate
+ MAGMA_EVD_CLIENT Info: CSharedMemory->ExitServer() has just requested server to exit 
+ MAGMA_EVD_CLIENT Info: Calling destructor of shrd_client object
+>   
+> 
+> 
+> 
+> 
+> ### * <FOOTER>
+> ###
+> cleanEx()
+> options(digits = 7L)
+> base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
+Time elapsed:  3718.8 38.233 842.615 1.669 0.442 
+> grDevices::dev.off()
+null device 
+          1 
+> ###
+> ### Local variables: ***
+> ### mode: outline-minor ***
+> ### outline-regexp: "\\(> \\)?### [*]+" ***
+> ### End: ***
+> quit('no')
