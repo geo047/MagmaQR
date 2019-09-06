@@ -82,7 +82,7 @@ mv qr_server.exe ../bin
 % device 1: Tesla P100-SXM2-16GB, 1480.5 MHz clock, 16280.9 MiB memory, capability 6.0
 % device 2: Tesla P100-SXM2-16GB, 1480.5 MHz clock, 16280.9 MiB memory, capability 6.0
 % device 3: Tesla P100-SXM2-16GB, 1480.5 MHz clock, 16280.9 MiB memory, capability 6.0
-% Fri Sep  6 11:11:28 2019
+% Fri Sep  6 11:28:16 2019
  dA afer dgeqrf_gpu
 [
  100.0000  52.0000  52.0000  50.0000  48.0000
@@ -155,7 +155,7 @@ Q that is sitting on rectors_ptr
 > cleanEx()
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  2.688 0.212 6.553 1.751 0.36 
+Time elapsed:  2.677 0.222 6.592 1.757 0.355 
 > grDevices::dev.off()
 null device 
           1 

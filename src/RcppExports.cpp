@@ -39,16 +39,13 @@ END_RCPP
 }
 
 
-Rcpp::NumericMatrix qr_mgpu(Rcpp::NumericMatrix matrix, bool symmetric, bool only_values, bool overwrite, bool printInfo);
-RcppExport SEXP MagmaQR_qr_mgpu(SEXP matrixSEXP, SEXP symmetricSEXP, SEXP only_valuesSEXP, SEXP overwriteSEXP, SEXP printInfoSEXP) {
+Rcpp::NumericMatrix qr_mgpu(Rcpp::NumericMatrix matrix,  bool printInfo);
+RcppExport SEXP MagmaQR_qr_mgpu(SEXP matrixSEXP,  SEXP printInfoSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< Rcpp::NumericMatrix >::type matrix(matrixSEXP);
-    Rcpp::traits::input_parameter< bool >::type symmetric(symmetricSEXP);
-    Rcpp::traits::input_parameter< bool >::type only_values(only_valuesSEXP);
-    Rcpp::traits::input_parameter< bool >::type overwrite(overwriteSEXP);
     Rcpp::traits::input_parameter< bool >::type printInfo(printInfoSEXP);
-    rcpp_result_gen = Rcpp::wrap(qr_mgpu(matrix, symmetric, only_values, overwrite, printInfo));
+    rcpp_result_gen = Rcpp::wrap(qr_mgpu(matrix,  printInfo));
     return rcpp_result_gen;
 END_RCPP
 }

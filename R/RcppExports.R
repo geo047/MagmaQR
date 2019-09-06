@@ -37,13 +37,10 @@ GetServerArgs <- function(matrixDimension,  numGPUsWanted, memName, semName, pri
 #' N.B. The maximum size allowed of the input matrix is goverend by what was provided in the MagmaQR::RunServer() function. The server 
 #' will automatically be restarted with a larger shared memory area if user wants to perorm EVD on a larger matrix.
 #' @param matrix - the input matrix to be used in eigenvalue decomposition. It is assumed to be square 
-#' @param symmetric - the input is assumed to be symmetric and real. Function will fail if symmetric=FALSE.
-#' @param only_values - If TRUE: only compute eigenvalues. If FALSE: Compute eigenvectors also. 
-#' @param overwrite - If TRUE: The resulting eigenvectors (if requested) will overwrite the input matrix to potentially reduce memory requirements. 
 #' @param printInfo - Prints diagnostic information about the client processing
 #' @return Inverse of matrix
-qr_mgpu <- function(matrix, symmetric = TRUE, only_values = FALSE, overwrite = FALSE, printInfo = FALSE){
-    .Call('MagmaQR_qr_mgpu', PACKAGE = 'MagmaQR',  matrix, symmetric, only_values, overwrite, printInfo)
+qr_mgpu <- function(matrix,  printInfo = FALSE){
+    .Call('MagmaQR_qr_mgpu', PACKAGE = 'MagmaQR',  matrix, printInfo)
 }
 
 

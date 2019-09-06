@@ -4,13 +4,10 @@
 \alias{qr_mgpu}
 \title{Obtain the Q matrix from QR factorisation of a square matrix using MAGMA  multi-gpu routines}
 \usage{
-qr_mgpu(matrix, symmetric=TRUE, only_values=FALSE, overwrite=FALSE, printInfo=FALSE)
+qr_mgpu(matrix,  printInfo=FALSE)
 }
 \arguments{
 \item{matrix}{- the input matrix to be used in QR factorisation. It must be square}
-\item{symmetric}{ ignored}
-\item{only_values}{ignored}
-\item{overwrite}{ignored}
 \item{printInfo}{set to TRUE if additionaly output is needed}
 }
 \value{

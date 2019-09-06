@@ -197,7 +197,7 @@ std::string GetServerArgs(int matrixDimension,  int numGPUsWanted, std::string m
 //' @param matrix - the input matrix to be used in eigenvalue decomposition. It is assumed to be square 
 //' @return A list that contains the eigenvalues and if requested the eignenvectors. If overwrite==TRUE then the eignevectors are copied into the ***input matrix***
 // [[Rcpp::export(rng=false)]]
-Rcpp::NumericMatrix  qr_mgpu(Rcpp::NumericMatrix matrix, bool symmetric=true,  bool only_values=false, bool overwrite=false, bool printInfo=true )
+Rcpp::NumericMatrix  qr_mgpu(Rcpp::NumericMatrix matrix,  bool printInfo=true )
 {
   std::stringstream ss_string;
   
