@@ -88,18 +88,6 @@ magma_int_t *  info
 
 
 
-
-magma_int_t magma_dorgqr2  (  magma_int_t   m,
-magma_int_t   n,
-magma_int_t   k,
-double *   A,
-magma_int_t   lda,
-double *   tau,
-magma_int_t *   info 
-)  ;
-
-
-
 magma_int_t magma_dorgqr  (  magma_int_t   m,
 magma_int_t   n,
 magma_int_t   k,
@@ -159,14 +147,6 @@ magma_int_t  lwork,
 magma_int_t *  info 
 ); 
 
-magma_int_t magma_dorgqr2 ( magma_int_t  m,
-magma_int_t  n,
-magma_int_t  k,
-double *  A,
-magma_int_t  lda,
-double *  tau,
-magma_int_t *  info 
-); 
 
 magma_int_t magma_dgeqrf_gpu ( magma_int_t  m,
 magma_int_t  n,

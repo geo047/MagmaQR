@@ -15,6 +15,5 @@ StopServer              Function signals to the server through shared
                         memory region to terminate from its main loop
                         and then deletes the client CSharedMemory
                         object
-qr_mgpu                 Function used to obtain the eigenvalue
-                        decomposition (EVD) of a non-symmetric matrix
-                        using a MAGMA 2-stage multi-gpu EVD algorithm
+qr_mgpu                 Obtain the Q matrix from QR factorisation of a
+                        square matrix using MAGMA multi-gpu routines

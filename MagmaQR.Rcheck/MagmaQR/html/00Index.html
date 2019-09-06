@@ -1,12 +1,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head><title>R: Implemention of several matrix and linear algrebra functions via
-the multi-GPU-based functionality in the MAGMA library</title>
+<head><title>R: Implemention of QR factorisation via the multi-GPU-based
+functionality in the MAGMA library</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" type="text/css" href="R.css" />
 </head><body>
-<h1> Implemention of several matrix and linear algrebra functions via
-the multi-GPU-based functionality in the MAGMA library
+<h1> Implemention of QR factorisation via the multi-GPU-based
+functionality in the MAGMA library
 <img class="toplogo" src="../../../doc/html/Rlogo.svg" alt="[R logo]" />
 </h1>
 <hr/>
@@ -29,7 +29,7 @@ the multi-GPU-based functionality in the MAGMA library
 <tr><td style="width: 25%;"><a href="MakeServer.html">MakeServer</a></td>
 <td>Creates the server executable.</td></tr>
 <tr><td style="width: 25%;"><a href="qr_mgpu.html">qr_mgpu</a></td>
-<td>Function used to obtain the eigenvalue decomposition (EVD) of a non-symmetric matrix using a MAGMA 2-stage multi-gpu EVD algorithm</td></tr>
+<td>Obtain the Q matrix from QR factorisation of a square matrix using MAGMA multi-gpu routines</td></tr>
 <tr><td style="width: 25%;"><a href="RunServer.html">RunServer</a></td>
 <td>Creates the R client side shared memory region and then launches a server process which is given access to the shared region. The server then waits for the R client to give it a matrix on which it will compute the eigenvalue decomposition of useing a syevdx_2stage MAGMA library function.</td></tr>
 <tr><td style="width: 25%;"><a href="StopServer.html">StopServer</a></td>

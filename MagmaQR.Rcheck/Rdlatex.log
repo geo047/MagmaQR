@@ -71,36 +71,39 @@ No file Rd2.aux.
 (/apps/texlive/2015/texmf-dist/tex/latex/base/utf8.def) [1{/apps/texlive/2015/t
 exmf-var/fonts/map/pdftex/updmap/pdftex.map}]
 (/apps/texlive/2015/texmf-dist/tex/latex/base/utf8.def)
-Overfull \hbox (86.20477pt too wide) in paragraph at lines 76--77
-[]\T1/ptm/m/n/10 Implements the sym-met-ric eigen-value de-com-po-si-tion us-in
-g the MAGMA li-brary (http://icl.cs.utk.edu/magma/index.html)
-[2]
+Overfull \hbox (4.30498pt too wide) in paragraph at lines 76--77
+[]\T1/ptm/m/n/10 Implements the QR fac-tori-sa-tion us-ing the MAGMA li-brary (
+http://icl.cs.utk.edu/magma/index.html)
+
 Overfull \hbox (20.39626pt too wide) in paragraph at lines 78--81
 []\T1/ptm/m/n/10 Compilation of the R pack-age the 'client side' code: Op-tion-
 ally set MAGMA_HOME and CUDA_ROOT
 
-Overfull \hbox (97.43506pt too wide) in paragraph at lines 83--89
+Overfull \hbox (60.22522pt too wide) in paragraph at lines 83--89
 \T1/ptm/m/n/10 be-ing run on. The de-fault plat-form string is stored in a file
- in <R li-brary path>/rcppMagamSYEVD/extdata/platformstring.txt
-[3]
+ in <R li-brary path>/MagamQR/extdata/platformstring.txt
+[2]
 Overfull \hbox (4.73691pt too wide) in paragraph at lines 136--154
 \T1/ptm/m/n/10 Gen-er-al-ized Eigen-solver for Elec-tronic Struc-ture Cal-cu-la
 -tions Based on Fine-grained Mem-ory Aware
-
+[3]
 Overfull \hbox (120.48093pt too wide) in paragraph at lines 176--176
  [] \T1/zi4/m/n/9 MagmaQR::RunServer( matrixMaxDimension=n,  numGPUsWanted=ngpu
 , memName="/syevd_mem", semName="/syevd_sem", print=0)[] 
-[4] (/apps/texlive/2015/texmf-dist/tex/latex/base/utf8.def)
-Overfull \hbox (7.02797pt too wide) in paragraph at lines 205--208
-\T1/ptm/m/n/10 "en-vi-ron-mentSetup="env MAGMA_HOME=/data/bow355/A_275ERCP_R_MA
-GMA/magma-1.7.0
-
+(/apps/texlive/2015/texmf-dist/tex/latex/base/utf8.def)
+Overfull \hbox (65.65753pt too wide) in paragraph at lines 205--208
+\T1/ptm/m/n/10 "en-vi-ron-mentSetup="env MAGMA_HOME=/apps/magma/2.5.1a1-ipl64-c
+uda90 CUDA_ROOT=/apps/cuda/9.0.17
+[4]
 Overfull \hbox (62.58807pt too wide) in paragraph at lines 218--219
 []\T1/ptm/m/n/10 - type (string) e.g. "env LD_LIBRARY_PATH=/usr/local/magma-1.7
 .1:$LD_LIBRARY_PATH
+(/apps/texlive/2015/texmf-dist/tex/latex/base/utf8.def)
+Overfull \hbox (20.78088pt too wide) in paragraph at lines 241--241
+ []\T1/zi4/m/n/10 qr_mgpu(matrix, symmetric=TRUE, only_values=FALSE, overwrite=
+FALSE, printInfo=FALSE)[] 
 (/apps/texlive/2015/texmf-dist/tex/latex/base/utf8.def) [5]
 (/apps/texlive/2015/texmf-dist/tex/latex/base/utf8.def) [6]
-(/apps/texlive/2015/texmf-dist/tex/latex/base/utf8.def)
 No file Rd2.ind.
 [7] (./Rd2.aux)
 
@@ -117,7 +120,7 @@ etic/uhvr8a.pfb></apps/texlive/2015/texmf-dist/fonts/type1/urw/times/utmb8a.pfb
 ></apps/texlive/2015/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></apps/texlive
 /2015/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></apps/texlive/2015/texmf-dis
 t/fonts/type1/urw/times/utmri8a.pfb>
-Output written on Rd2.pdf (7 pages, 95696 bytes).
+Output written on Rd2.pdf (7 pages, 96148 bytes).
 Transcript written on Rd2.log.
 This is makeindex, version 2.15 [TeX Live 2015] (kpathsea + Thai support).
 Scanning input file Rd2.idx....done (7 entries accepted, 0 rejected).
@@ -197,17 +200,17 @@ Writing index file Rd2.idx
 (/apps/texlive/2015/texmf-dist/tex/latex/base/utf8.def) [1{/apps/texlive/2015/t
 exmf-var/fonts/map/pdftex/updmap/pdftex.map}]
 (/apps/texlive/2015/texmf-dist/tex/latex/base/utf8.def)
-Overfull \hbox (86.20477pt too wide) in paragraph at lines 76--77
-[]\T1/ptm/m/n/10 Implements the sym-met-ric eigen-value de-com-po-si-tion us-in
-g the MAGMA li-brary (http://icl.cs.utk.edu/magma/index.html)
+Overfull \hbox (4.30498pt too wide) in paragraph at lines 76--77
+[]\T1/ptm/m/n/10 Implements the QR fac-tori-sa-tion us-ing the MAGMA li-brary (
+http://icl.cs.utk.edu/magma/index.html)
 [2]
 Overfull \hbox (20.39626pt too wide) in paragraph at lines 78--81
 []\T1/ptm/m/n/10 Compilation of the R pack-age the 'client side' code: Op-tion-
 ally set MAGMA_HOME and CUDA_ROOT
 
-Overfull \hbox (97.43506pt too wide) in paragraph at lines 83--89
+Overfull \hbox (60.22522pt too wide) in paragraph at lines 83--89
 \T1/ptm/m/n/10 be-ing run on. The de-fault plat-form string is stored in a file
- in <R li-brary path>/rcppMagamSYEVD/extdata/platformstring.txt
+ in <R li-brary path>/MagamQR/extdata/platformstring.txt
 [3]
 Overfull \hbox (4.73691pt too wide) in paragraph at lines 136--154
 \T1/ptm/m/n/10 Gen-er-al-ized Eigen-solver for Elec-tronic Struc-ture Cal-cu-la
@@ -216,16 +219,19 @@ Overfull \hbox (4.73691pt too wide) in paragraph at lines 136--154
 Overfull \hbox (120.48093pt too wide) in paragraph at lines 176--176
  [] \T1/zi4/m/n/9 MagmaQR::RunServer( matrixMaxDimension=n,  numGPUsWanted=ngpu
 , memName="/syevd_mem", semName="/syevd_sem", print=0)[] 
-[4] (/apps/texlive/2015/texmf-dist/tex/latex/base/utf8.def)
-Overfull \hbox (7.02797pt too wide) in paragraph at lines 205--208
-\T1/ptm/m/n/10 "en-vi-ron-mentSetup="env MAGMA_HOME=/data/bow355/A_275ERCP_R_MA
-GMA/magma-1.7.0
+(/apps/texlive/2015/texmf-dist/tex/latex/base/utf8.def) [4]
+Overfull \hbox (65.65753pt too wide) in paragraph at lines 205--208
+\T1/ptm/m/n/10 "en-vi-ron-mentSetup="env MAGMA_HOME=/apps/magma/2.5.1a1-ipl64-c
+uda90 CUDA_ROOT=/apps/cuda/9.0.17
 
 Overfull \hbox (62.58807pt too wide) in paragraph at lines 218--219
 []\T1/ptm/m/n/10 - type (string) e.g. "env LD_LIBRARY_PATH=/usr/local/magma-1.7
 .1:$LD_LIBRARY_PATH
-(/apps/texlive/2015/texmf-dist/tex/latex/base/utf8.def) [5]
-(/apps/texlive/2015/texmf-dist/tex/latex/base/utf8.def) [6]
+(/apps/texlive/2015/texmf-dist/tex/latex/base/utf8.def)
+Overfull \hbox (20.78088pt too wide) in paragraph at lines 241--241
+ []\T1/zi4/m/n/10 qr_mgpu(matrix, symmetric=TRUE, only_values=FALSE, overwrite=
+FALSE, printInfo=FALSE)[] 
+[5] (/apps/texlive/2015/texmf-dist/tex/latex/base/utf8.def) [6]
 (/apps/texlive/2015/texmf-dist/tex/latex/base/utf8.def) (./Rd2.ind [7] [8])
 (./Rd2.aux)
 
@@ -243,7 +249,7 @@ hvr8a.pfb></apps/texlive/2015/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></app
 s/texlive/2015/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></apps/texlive/2015/
 texmf-dist/fonts/type1/urw/times/utmr8a.pfb></apps/texlive/2015/texmf-dist/font
 s/type1/urw/times/utmri8a.pfb>
-Output written on Rd2.pdf (8 pages, 105672 bytes).
+Output written on Rd2.pdf (8 pages, 105848 bytes).
 Transcript written on Rd2.log.
 This is makeindex, version 2.15 [TeX Live 2015] (kpathsea + Thai support).
 Scanning input file Rd2.idx....done (7 entries accepted, 0 rejected).
@@ -323,17 +329,17 @@ Writing index file Rd2.idx
 (/apps/texlive/2015/texmf-dist/tex/latex/base/utf8.def) [1{/apps/texlive/2015/t
 exmf-var/fonts/map/pdftex/updmap/pdftex.map}]
 (/apps/texlive/2015/texmf-dist/tex/latex/base/utf8.def)
-Overfull \hbox (86.20477pt too wide) in paragraph at lines 76--77
-[]\T1/ptm/m/n/10 Implements the sym-met-ric eigen-value de-com-po-si-tion us-in
-g the MAGMA li-brary (http://icl.cs.utk.edu/magma/index.html)
+Overfull \hbox (4.30498pt too wide) in paragraph at lines 76--77
+[]\T1/ptm/m/n/10 Implements the QR fac-tori-sa-tion us-ing the MAGMA li-brary (
+http://icl.cs.utk.edu/magma/index.html)
 [2]
 Overfull \hbox (20.39626pt too wide) in paragraph at lines 78--81
 []\T1/ptm/m/n/10 Compilation of the R pack-age the 'client side' code: Op-tion-
 ally set MAGMA_HOME and CUDA_ROOT
 
-Overfull \hbox (97.43506pt too wide) in paragraph at lines 83--89
+Overfull \hbox (60.22522pt too wide) in paragraph at lines 83--89
 \T1/ptm/m/n/10 be-ing run on. The de-fault plat-form string is stored in a file
- in <R li-brary path>/rcppMagamSYEVD/extdata/platformstring.txt
+ in <R li-brary path>/MagamQR/extdata/platformstring.txt
 [3]
 Overfull \hbox (4.73691pt too wide) in paragraph at lines 136--154
 \T1/ptm/m/n/10 Gen-er-al-ized Eigen-solver for Elec-tronic Struc-ture Cal-cu-la
@@ -342,16 +348,19 @@ Overfull \hbox (4.73691pt too wide) in paragraph at lines 136--154
 Overfull \hbox (120.48093pt too wide) in paragraph at lines 176--176
  [] \T1/zi4/m/n/9 MagmaQR::RunServer( matrixMaxDimension=n,  numGPUsWanted=ngpu
 , memName="/syevd_mem", semName="/syevd_sem", print=0)[] 
-[4] (/apps/texlive/2015/texmf-dist/tex/latex/base/utf8.def)
-Overfull \hbox (7.02797pt too wide) in paragraph at lines 205--208
-\T1/ptm/m/n/10 "en-vi-ron-mentSetup="env MAGMA_HOME=/data/bow355/A_275ERCP_R_MA
-GMA/magma-1.7.0
+(/apps/texlive/2015/texmf-dist/tex/latex/base/utf8.def) [4]
+Overfull \hbox (65.65753pt too wide) in paragraph at lines 205--208
+\T1/ptm/m/n/10 "en-vi-ron-mentSetup="env MAGMA_HOME=/apps/magma/2.5.1a1-ipl64-c
+uda90 CUDA_ROOT=/apps/cuda/9.0.17
 
 Overfull \hbox (62.58807pt too wide) in paragraph at lines 218--219
 []\T1/ptm/m/n/10 - type (string) e.g. "env LD_LIBRARY_PATH=/usr/local/magma-1.7
 .1:$LD_LIBRARY_PATH
-(/apps/texlive/2015/texmf-dist/tex/latex/base/utf8.def) [5]
-(/apps/texlive/2015/texmf-dist/tex/latex/base/utf8.def) [6]
+(/apps/texlive/2015/texmf-dist/tex/latex/base/utf8.def)
+Overfull \hbox (20.78088pt too wide) in paragraph at lines 241--241
+ []\T1/zi4/m/n/10 qr_mgpu(matrix, symmetric=TRUE, only_values=FALSE, overwrite=
+FALSE, printInfo=FALSE)[] 
+[5] (/apps/texlive/2015/texmf-dist/tex/latex/base/utf8.def) [6]
 (/apps/texlive/2015/texmf-dist/tex/latex/base/utf8.def) (./Rd2.ind [7] [8])
 (./Rd2.aux) )
 (see the transcript file for additional information){/apps/texlive/2015/texmf-d
@@ -363,8 +372,8 @@ hvr8a.pfb></apps/texlive/2015/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></app
 s/texlive/2015/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></apps/texlive/2015/
 texmf-dist/fonts/type1/urw/times/utmr8a.pfb></apps/texlive/2015/texmf-dist/font
 s/type1/urw/times/utmri8a.pfb>
-Output written on Rd2.pdf (8 pages, 105778 bytes).
+Output written on Rd2.pdf (8 pages, 105951 bytes).
 Transcript written on Rd2.log.
 Saving output to ‘MagmaQR-manual.pdf’ ...
 Done
-You may want to clean up by 'rm -Rf /tmp/geo047.33659413/RtmpdrZSOr/Rd2pdf935b466392a'
+You may want to clean up by 'rm -Rf /tmp/geo047.33721213/RtmpoYcEoF/Rd2pdf8415198e9cc5'

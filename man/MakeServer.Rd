@@ -15,12 +15,12 @@ MakeServer(environmentSetup = "", target = "all")
 A character vector containing output of the make process
 }
 \description{
-Creates syevd_server executable using a call to 'make' and the makefile and make.inc information present in the <package root>/src directory.
+Creates qr_server executable using a call to 'make' and the makefile and make.inc information present in the <package root>/src directory.
 Users have to set the following variable in make.inc :
      MAGMALIB  =$(MAGMA_HOME)/lib          # The path to the MAGMA library
 
 Users must ensure that MAGMA_HOME and possibly CUDA_ROOT environment variables have been set in the shells environment
 or the variables can be set using environmentSetup paramater.
-e.g. "environmentSetup="env MAGMA_HOME=/data/bow355/A_275ERCP_R_MAGMA/magma-1.7.0 CUDA_ROOT=/cm/shared/apps/cuda65/toolkit/6.5.14 "
+e.g. "environmentSetup="env MAGMA_HOME=/apps/magma/2.5.1a1-ipl64-cuda90  CUDA_ROOT=/apps/cuda/9.0.17 "
 }
 

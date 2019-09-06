@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2016.5.10)  3 SEP 2019 13:43
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2016.5.10)  6 SEP 2019 10:48
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -812,9 +812,9 @@ File: utf8.def 2016/02/28 v1.1s UTF-8 support for inputenc
 (/apps/texlive/2015/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2016/02/28 v1.1s UTF-8 support for inputenc
 )
-Overfull \hbox (86.20477pt too wide) in paragraph at lines 76--77
-[]\T1/ptm/m/n/10 Implements the sym-met-ric eigen-value de-com-po-si-tion us-in
-g the MAGMA li-brary (http://icl.cs.utk.edu/magma/index.html)
+Overfull \hbox (4.30498pt too wide) in paragraph at lines 76--77
+[]\T1/ptm/m/n/10 Implements the QR fac-tori-sa-tion us-ing the MAGMA li-brary (
+http://icl.cs.utk.edu/magma/index.html)
  []
 
 [2]
@@ -824,9 +824,9 @@ ally set MAGMA_HOME and CUDA_ROOT
  []
 
 
-Overfull \hbox (97.43506pt too wide) in paragraph at lines 83--89
+Overfull \hbox (60.22522pt too wide) in paragraph at lines 83--89
 \T1/ptm/m/n/10 be-ing run on. The de-fault plat-form string is stored in a file
- in <R li-brary path>/rcppMagamSYEVD/extdata/platformstring.txt
+ in <R li-brary path>/MagamQR/extdata/platformstring.txt
  []
 
 [3]
@@ -841,12 +841,12 @@ Overfull \hbox (120.48093pt too wide) in paragraph at lines 176--176
 , memName="/syevd_mem", semName="/syevd_sem", print=0)[] 
  []
 
-[4] (/apps/texlive/2015/texmf-dist/tex/latex/base/utf8.def
+(/apps/texlive/2015/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2016/02/28 v1.1s UTF-8 support for inputenc
-)
-Overfull \hbox (7.02797pt too wide) in paragraph at lines 205--208
-\T1/ptm/m/n/10 "en-vi-ron-mentSetup="env MAGMA_HOME=/data/bow355/A_275ERCP_R_MA
-GMA/magma-1.7.0
+) [4]
+Overfull \hbox (65.65753pt too wide) in paragraph at lines 205--208
+\T1/ptm/m/n/10 "en-vi-ron-mentSetup="env MAGMA_HOME=/apps/magma/2.5.1a1-ipl64-c
+uda90 CUDA_ROOT=/apps/cuda/9.0.17
  []
 
 
@@ -857,8 +857,13 @@ Overfull \hbox (62.58807pt too wide) in paragraph at lines 218--219
 
 (/apps/texlive/2015/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2016/02/28 v1.1s UTF-8 support for inputenc
-) [5]
-(/apps/texlive/2015/texmf-dist/tex/latex/base/utf8.def
+)
+Overfull \hbox (20.78088pt too wide) in paragraph at lines 241--241
+ []\T1/zi4/m/n/10 qr_mgpu(matrix, symmetric=TRUE, only_values=FALSE, overwrite=
+FALSE, printInfo=FALSE)[] 
+ []
+
+[5] (/apps/texlive/2015/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2016/02/28 v1.1s UTF-8 support for inputenc
 ) [6]
 (/apps/texlive/2015/texmf-dist/tex/latex/base/utf8.def
@@ -870,15 +875,15 @@ LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <12> not available
 
 
 ])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 309.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 309.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 311.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 311.
 
 (./Rd2.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 309.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 309.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 311.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 311.
 Package rerunfilecheck Info: File `Rd2.out' has not changed.
 (rerunfilecheck)             Checksum: 50969065E015FBCFB78D674D968E11D9;349.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 309.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 311.
  ) 
 Here is how much of TeX's memory you used:
  6465 strings out of 493027
@@ -887,7 +892,7 @@ Here is how much of TeX's memory you used:
  9853 multiletter control sequences out of 15000+600000
  40674 words of font info for 49 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 38i,5n,27p,1510b,592s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 38i,5n,27p,1351b,503s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/apps/texlive/2015/texmf-dist/fonts/enc/dvips/base/8r.enc}{/apps/texlive/201
 5/texmf-dist/fonts/enc/dvips/inconsolata/i4-t1-0.enc}</apps/texlive/2015/texmf-
 dist/fonts/type1/public/inconsolata/Inconsolata-zi4r.pfb></apps/texlive/2015/te
@@ -896,7 +901,7 @@ st/fonts/type1/urw/helvetic/uhvr8a.pfb></apps/texlive/2015/texmf-dist/fonts/typ
 e1/urw/times/utmb8a.pfb></apps/texlive/2015/texmf-dist/fonts/type1/urw/times/ut
 mr8a.pfb></apps/texlive/2015/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></apps
 /texlive/2015/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on Rd2.pdf (8 pages, 105778 bytes).
+Output written on Rd2.pdf (8 pages, 105951 bytes).
 PDF statistics:
  162 PDF objects out of 1000 (max. 8388607)
  143 compressed objects within 2 object streams

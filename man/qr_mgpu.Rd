@@ -2,24 +2,26 @@
 % Please edit documentation in R/RcppExports.R
 \name{qr_mgpu}
 \alias{qr_mgpu}
-\title{Function used to obtain the eigenvalue decomposition (EVD) of a non-symmetric matrix using a MAGMA 2-stage multi-gpu EVD algorithm}
+\title{Obtain the Q matrix from QR factorisation of a square matrix using MAGMA  multi-gpu routines}
 \usage{
-qr_mgpu(matrix)
+qr_mgpu(matrix, symmetric=TRUE, only_values=FALSE, overwrite=FALSE, printInfo=FALSE)
 }
 \arguments{
-\item{matrix}{- the input matrix to be used in eigenvalue decomposition. It is assumed to be square}
+\item{matrix}{- the input matrix to be used in QR factorisation. It must be square}
+\item{symmetric}{ ignored}
+\item{only_values}{ignored}
+\item{overwrite}{ignored}
+\item{printInfo}{set to TRUE if additionaly output is needed}
 }
 \value{
-A list that contains the eigenvalues and if requested the eignenvectors. If overwrite==TRUE then the eignevectors are copied into the ***input matrix***
+The Q matrix is returned.
 }
 \description{
-This function performs the eigenvalue decomposition of the input matrix and returns the eigenvalues and (if requested) the
-eigenvectors of the input matrix in the returned list, identical to the base R eigen() function. If overwrite=TRUE then the eigenvectors are copied into the ***input matrix*** and the original matrix
-data is overwritten.
+This function performs the QR factorisation of the input matrix and returns the Q matrix.  
 The method involves the offload of the matrix data to a seperate syevd_server executable by copying data into a shared memory area and
 signalling to the server that the data is availble. This function will block until the server has completed the decomposition. The
-function checks that the input is square, however it does not check that the matrix is symmetric.
+function checks that the input is square.
 N.B. The maximum size allowed of the input matrix is goverend by what was provided in the MagmaQR::RunServer() function. The server
-will automatically be restarted with a larger shared memory area if user wants to perorm EVD on a larger matrix.
+will automatically be restarted with a larger shared memory area if the user wants to perform QR on a larger matrix.
 }
 

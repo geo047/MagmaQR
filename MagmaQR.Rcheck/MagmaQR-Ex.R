@@ -15,7 +15,7 @@ flush(stderr()); flush(stdout())
 ### Title: MagmaQR - provides a fast replacement for the qr() function,
 ###   using GPU based MAGMA library routine.
 ### Aliases: MagmaQR
-### Keywords: MagmaQR, magma, MAGMA, eigen, GPU, EVD
+### Keywords: MagmaQR, magma, MAGMA, QR, GPU
 
 ### ** Examples
 
@@ -23,8 +23,8 @@ flush(stderr()); flush(stdout())
 
 # setup
 set.seed(101)
-n <- 10000
-ngpu <- 4
+n <- 200
+ngpu <- 1
 K <- matrix(sample(c(0,1), n*n, TRUE ), nrow=n)
 res  <- tcrossprod(K)
 print(res[1:5,1:5])
