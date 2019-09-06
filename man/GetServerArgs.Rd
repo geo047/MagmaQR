@@ -4,13 +4,11 @@
 \alias{GetServerArgs}
 \title{Initialise shared memory on client and obtain server launch string.}
 \usage{
-GetServerArgs(matrixDimension, withVectors, numGPUsWanted, memName, semName,
+GetServerArgs(matrixDimension,  numGPUsWanted, memName, semName,
   printDetails)
 }
 \arguments{
 \item{matrixDimension}{- type (integer) - the dimension of the (assumed square) matrix}
-
-\item{withVectors}{- type (boolean)  - this is always set to true. It is a legacy parameter from Joshs Eigendecomposition code. }
 
 
 \item{numGPUsWanted}{- type (string)  - The number of GPUs to use }

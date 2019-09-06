@@ -19,13 +19,12 @@ StopServer <- function() {
 #' that will accept matrix data on which to perform eigenvalue decomposition 
 #' @param matrixDimension   - type (integer) - the dimension of the (assumed square) matrix
 #' @param numGPUsWanted     - type (string)  - The number of GPUs to use in for the symmetric eigenvalue (syevd) computation
-#' @param withVectors       - type (boolean) - true = We want the eigenvectors and eigenvalues calculated ; false = we only want eigenvalues calculated
 #' @param memName           - type (string)  - a name to give to the named shared memory region (will be created in /dev/shm/) and defaults to the user name if nothing specified
 #' @param semName           - type (string)  - a name to give to the semaphore (will be placed in /dev/shm) and defaults to the user name if nothing specified
 #' @param printDetails      - type (integer 0|1|2) - 0 = don't print, 1 = print details of server progress to screen; 2 = print to log (not functional)
 #' @return                  - type (string) A string that can be used a command line arguments to run the qr_server executable
-GetServerArgs <- function(matrixDimension, withVectors, numGPUsWanted, memName, semName, printDetails) {
-    .Call('MagmaQR_GetServerArgs', PACKAGE = 'MagmaQR', matrixDimension, withVectors, numGPUsWanted, memName, semName, printDetails)
+GetServerArgs <- function(matrixDimension,  numGPUsWanted, memName, semName, printDetails) {
+    .Call('MagmaQR_GetServerArgs', PACKAGE = 'MagmaQR', matrixDimension,  numGPUsWanted, memName, semName, printDetails)
 }
 
 #' Function used to obtain the eigenvalue decomposition (EVD) of a matrix using a MAGMA 2-stage multi-gpu EVD algorithm

@@ -84,9 +84,9 @@ RunServer <- function( environmentSetup="", numGPUsWanted=0,  matrixMaxDimension
     print <- 1 ;
   }
  
-  # GetServerArgs() is an Rcpp function - Setting withVectors=TRUE as a default, although it will be specified when the  
+  # GetServerArgs() is an Rcpp function -  although it will be specified when the  
   # computational functions are called via the CSharedMemory->SetCurrentMatrixSizeAndVectorsRequest() method
-  server_exe_with_args <- GetServerArgs(matrixMaxDimension, withVectors=TRUE, numGPUsWanted, memName, semName, print )
+  server_exe_with_args <- GetServerArgs(matrixMaxDimension,  numGPUsWanted, memName, semName, print )
   if (nchar(server_exe_with_args) == 0)
   {
     stop("MAGMA_EVD_CLIENT Error: MagmaQR::RunServer(): Client could not get a server launch string")

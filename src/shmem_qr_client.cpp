@@ -100,20 +100,18 @@ int CleanupSharedMemory(  )
 //' that will accept matrix data on which to perform eigenvalue decomposition 
 //' @param matrixDimension   - type (integer) - the dimension of the (assumed square) matrix
 //' @param numGPUsWanted     - type (string)  - The number of GPUs to use in for the non-symmetric eigenvalue (syevd) computation
-//' @param withVectors       - type (boolean) - true = We want the eigenvectors and eigenvalues calculated ; false = we only want eigenvalues calculated
 //' @param memName           - type (string)  - a name to give to the named shared memory region (will be created in /dev/shm/) and defaults to the user name if nothing specified
 //' @param semName           - type (string)  - a name to give to the semaphore (will be placed in /dev/shm) and defaults to the user name if nothing specified
 //' @param printDetails      - type (integer 0|1|2) - 0 = don't print, 1 = print details of server progress to screen; 2 = print to log (not functional)
 //' @return                  - type (string) A string that can be used a command line arguments to run the qr_server executable
 // [[Rcpp::export(rng=false)]] 
-std::string GetServerArgs(int matrixDimension, bool withVectors, int numGPUsWanted, std::string memName, std::string semName , int printDetails)
+std::string GetServerArgs(int matrixDimension,  int numGPUsWanted, std::string memName, std::string semName , int printDetails)
 {
 	struct arg_list main_args ;
   std::stringstream ss_string ;
   std::string serverpathstring ;
   
 	main_args.matrixDimension = matrixDimension ;
-	main_args.weWantVectors = withVectors ;
 	main_args.numGPUsWanted = numGPUsWanted ;
 	main_args.memName.assign(memName) ;
 	main_args.semName.assign(semName) ;
@@ -202,7 +200,6 @@ std::string GetServerArgs(int matrixDimension, bool withVectors, int numGPUsWant
 Rcpp::NumericMatrix  qr_mgpu(Rcpp::NumericMatrix matrix, bool symmetric=true,  bool only_values=false, bool overwrite=false, bool printInfo=true )
 {
   std::stringstream ss_string;
-  bool withVectors = ! only_values ; 
   
 
   
@@ -228,7 +225,7 @@ Rcpp::NumericMatrix  qr_mgpu(Rcpp::NumericMatrix matrix, bool symmetric=true,  b
          //return(Rcpp::List::create(  Rcpp::Named("error") = ss_string.str()  )) ;
       }
         
-      shrd_client->SetCurrentMatrixSizeAndVectorsRequest(matrix.ncol(), withVectors) ;  //true for withVectors
+      shrd_client->SetCurrentMatrixSizeAndVectorsRequest(matrix.ncol(), true) ;  //true for withVectors
       size_t numbytes = matrix.ncol() * matrix.ncol() * sizeof(double) ;
          
       

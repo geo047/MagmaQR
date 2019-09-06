@@ -19,7 +19,6 @@ Source packages should not contain undeclared executable files.
 See section ‘Package structure’ in the ‘Writing R Extensions’ manual.
 * checking for hidden files and directories ... NOTE
 Found the following hidden files and directories:
-  man/.qr_mgpu.Rd.swp
   src/.gitignore
   .git
 These were most likely included in error. See section ‘Package

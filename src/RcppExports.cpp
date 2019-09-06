@@ -24,17 +24,16 @@ BEGIN_RCPP
 END_RCPP
 }
 // GetServerArgs
-std::string GetServerArgs(int matrixDimension, bool withVectors, int numGPUsWanted, std::string memName, std::string semName, int printDetails);
-RcppExport SEXP MagmaQR_GetServerArgs(SEXP matrixDimensionSEXP, SEXP withVectorsSEXP, SEXP numGPUsWantedSEXP, SEXP memNameSEXP, SEXP semNameSEXP, SEXP printDetailsSEXP) {
+std::string GetServerArgs(int matrixDimension, int numGPUsWanted, std::string memName, std::string semName, int printDetails);
+RcppExport SEXP MagmaQR_GetServerArgs(SEXP matrixDimensionSEXP,  SEXP numGPUsWantedSEXP, SEXP memNameSEXP, SEXP semNameSEXP, SEXP printDetailsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< int >::type matrixDimension(matrixDimensionSEXP);
-    Rcpp::traits::input_parameter< bool >::type withVectors(withVectorsSEXP);
     Rcpp::traits::input_parameter< int >::type numGPUsWanted(numGPUsWantedSEXP);
     Rcpp::traits::input_parameter< std::string >::type memName(memNameSEXP);
     Rcpp::traits::input_parameter< std::string >::type semName(semNameSEXP);
     Rcpp::traits::input_parameter< int >::type printDetails(printDetailsSEXP);
-    rcpp_result_gen = Rcpp::wrap(GetServerArgs(matrixDimension, withVectors, numGPUsWanted, memName, semName, printDetails));
+    rcpp_result_gen = Rcpp::wrap(GetServerArgs(matrixDimension,  numGPUsWanted, memName, semName, printDetails));
     return rcpp_result_gen;
 END_RCPP
 }
