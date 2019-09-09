@@ -23,20 +23,20 @@ flush(stderr()); flush(stdout())
 
 # setup
 set.seed(101)
-n <- 200
+n <- 6000
 ngpu <- 1
-K <- matrix(sample(c(0,1), n*n, TRUE ), nrow=n)
-res  <- tcrossprod(K)
+res  <- matrix(sample(1:1000, n*n, TRUE ), nrow=n)
+#res  <- tcrossprod(K)
 print(res[1:5,1:5])
 
 # CPU based
  library(MagmaQR)
  MagmaQR::RunServer( matrixMaxDimension=n,  numGPUsWanted=ngpu, memName="/syevd_mem", semName="/syevd_sem", print=0)
 
-  qGPU  <- MagmaQR::qr_mgpu(res)
+  qGPU  <- MagmaQR::qr_mgpu(res, printInfo=TRUE)
 
  ## CPU 
- qCPU  <- qr.Q(qr(res))
+# qCPU  <- qr.Q(qr(res))
 
 
    print(qGPU[1:5, 1:5])

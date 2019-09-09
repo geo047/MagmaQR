@@ -403,12 +403,8 @@ int main(int argc, char* argv[])
 // All data is passed in via the static CSharedRegion object shrd_server
 int server_compute_qr_mgpu( hideprintlog hideorprint )
 {
+   std::cout << " About to start server_compute_qr_mgpu ... " << std::endl;
 
-
-
-
-  // Initialize magma and cublas
-    magma_init();
    magma_print_environment();
 
    // Initialize the queue
@@ -429,7 +425,7 @@ int server_compute_qr_mgpu( hideprintlog hideorprint )
     return(-1) ;
   }
 
-   n = shrd_server->_matrix_dim ;
+  n = shrd_server->_matrix_dim ;
   rvalues_ptr = shrd_server->_values ;
   rvectors_ptr = shrd_server->_vectors ;  // was rx
 
@@ -442,35 +438,60 @@ int server_compute_qr_mgpu( hideprintlog hideorprint )
   nb = magma_get_dgeqrf_nb( n, n );
   lwork  = n*nb;
 
-  // magma_dmalloc_cpu( &tau,     n  );
-  magma_dmalloc_cpu( &tau,     n  );
+ std::cout << "In here " <<std::endl;
+ if (  MAGMA_SUCCESS !=  magma_dmalloc_cpu( &tau,     n  ) )
+ {
+    shrd_server->error_and_die(" MAGMA_QR_SERVER Error: magma_qr_mgpu() magma_malloc_cpu failed. Most likely need more memory." );
+ }
+
 
 
 
   if (shrd_server->_numgpus == 1) {
+ std::cout << "In here " <<std::endl;
 
-     magma_dmalloc( &dA,     ldda*n );
-     magma_dmalloc( &dT,     ( 2*min_mn + magma_roundup( n, 32 ) )*nb );
+     if (  MAGMA_SUCCESS !=  magma_dmalloc( &dA,     ldda*n )  )
+     {
+          shrd_server->error_and_die(" MAGMA_QR_SERVER Error: magma_qr_mgpu() magma_malloc failed. Most likely need more memory on GPU. Run on machine with multiple GPU." );
+     }
+
+ std::cout << "In here " <<std::endl;
+
+     if (  MAGMA_SUCCESS !=  magma_dmalloc( &dT,     ( 2*min_mn + magma_roundup( n, 32 ) )*nb )  )
+     {
+    shrd_server->error_and_die(" MAGMA_QR_SERVER Error: magma_qr_mgpu() magma_malloc failed. Most likely need more GPU memory. Run on machine with multiple GPU." );
+     }
+
+ std::cout << "about to magma_dsetmatrix  " <<std::endl;
+
      magma_dsetmatrix(  n, n, rvectors_ptr , lda, dA, ldda, queue );
-     std::cout << " dA afer dgeqrf_gpu"  << std::endl;
-     magma_dprint_gpu(5,5, dA, n , queue);
-
+     if (hideorprint == PRINT) {
+         std::cout << " Single GPU "  << std::endl;
+         std::cout << " First 5 rows/columns of R data that is now sitting on the GPU "  << std::endl;
+         magma_dprint_gpu(5,5, dA, n , queue);
+     }
 
 
      magma_dgeqrf_gpu( n, n, dA, ldda, tau, dT, &info );
-     std::cout << " dA afer dgeqrf_gpu"  << std::endl;
-     magma_dprint_gpu(5,5, dA, n , queue);
+     if (hideorprint == PRINT) {
+         std::cout << " Output from running magma_dgeqrf_gpu: contents still on GPU "  << std::endl;
+         magma_dprint_gpu(5,5, dA, n , queue);
+     }
+
 
      magma_dorgqr_gpu( n, n, n, dA, ldda, tau, dT, nb, &info );
 
-     std::cout << " Q "<< std::endl;
-     magma_dprint_gpu(5,5, dA, n, queue);
-     
-     // magma_dgetmatrix(  n, n, rvectors_ptr , lda, dA, ldda, queue );
-     magma_dgetmatrix(  n, n ,dA,    ldda,  rvectors_ptr , lda, queue );
-     std::cout << "Q that is sitting on rectors_ptr" << std::endl;
-     magma_dprint(5,5, rvectors_ptr, n);
+     if (hideorprint == PRINT) {
+         std::cout << " Q matrix. From running magma_dorgqr_gpu: contents still on GPU "  << std::endl;
+         magma_dprint_gpu(5,5, dA, n , queue);
+     }
 
+
+     magma_dgetmatrix(  n, n ,dA,    ldda,  rvectors_ptr , lda, queue );
+     if (hideorprint == PRINT) {
+         std::cout << " Q matrix. GPU -> CPU. This is what is being passed into R land."  << std::endl;
+         magma_dprint(5,5, rvectors_ptr, n );
+     }
 
     magma_free ( dT )  ;
     magma_free ( dA )  ;
@@ -485,21 +506,32 @@ int server_compute_qr_mgpu( hideprintlog hideorprint )
      double tmp[1];
      magma_dgeqrf( n, n, NULL, n, NULL, tmp, lwork, &info );
      lwork = tmp[0];
-     std::cout << "lwork = = " << lwork << std::endl;
 
 
     double * h_work ;
-    magma_dmalloc_cpu(&h_work, lwork);
+
+    if (  MAGMA_SUCCESS !=  magma_dmalloc_cpu(&h_work, lwork) )
+     {
+    shrd_server->error_and_die(" MAGMA_QR_SERVER Error: magma_qr_mgpu() magma_dmalloc_cpu failed. Most likely need more CPU memory." );
+     }
 
 
    magma_dgeqrf_m(shrd_server->_numgpus  , n, n, rvectors_ptr  , n   , tau, h_work, lwork, &info );
-  std::cout << "------------------- dgeqrf_m  ... " << info << std::endl;
-   std::cout << " QR factorisation ... 1 " << std::endl;
-   magma_dprint(5, 5, rvectors_ptr, n);
+   if (hideorprint == PRINT) {
+         std::cout << " Output from running magma_dgeqrf_m: contents on CPU "  << std::endl;
+         magma_dprint(5, 5, rvectors_ptr, n);
 
-   std::cout << "About to assign C " << std::endl;
-   double *   cmat;
-   magma_dmalloc_cpu(&cmat, n2);
+   }
+
+   double *cmat;
+    if (  MAGMA_SUCCESS !=  magma_dmalloc_cpu(&cmat, n2) )
+     {
+        shrd_server->error_and_die(" MAGMA_QR_SERVER Error: magma_qr_mgpu() magma_dmalloc_cpu failed. Most likely need more CPU memory." );
+     }
+
+
+
+   // Form identify matrix - used for forming Q matrix in next step
    for( magma_int_t col=0; col < n; col++){
       for( magma_int_t row=0; row< n; row++){
       if( row == col){
@@ -512,22 +544,17 @@ int server_compute_qr_mgpu( hideprintlog hideorprint )
    }
 
 
-// This works --> magma_dorgqr2 ( n, n, n, rvectors_ptr , n ,  tau, &info );  
-// This does not work --->  magma_dorgqr_m(n, n, n, rvectors_ptr , n, tau, h_work, nb  ,   &info);
-   std::cout << "About to run dormqr_m ...  " << std::endl;
-magma_dormqr_m  ( shrd_server->_numgpus , MagmaLeft, MagmaNoTrans, n, n, n, rvectors_ptr, n, tau, cmat , n, h_work, lwork, &info ) ;	
+   magma_dormqr_m  ( shrd_server->_numgpus , MagmaLeft, MagmaNoTrans, n, n, n, rvectors_ptr, n, tau, cmat , n, h_work, lwork, &info ) ;	
 
-  std::cout << "-------------------  dorqqr_m  ... " << info << std::endl;
-   std::cout << "What is going on here ... " << std::endl;
-   magma_dprint(5,5, cmat , n);
+   if (hideorprint == PRINT) {
+         std::cout << " Q matrix  from running magma_dormqr_m: contents on CPU "  << std::endl;
+         magma_dprint(5,5, cmat , n);
+   }
 
-
-   std::cout << "About to copy cmat to rvectors_ptr  ... " << std::endl;
+  // Copy Q matrix from cmat to rvectors_ptr (R land)
 lapackf77_dlacpy( MagmaFullStr ,&n ,&n,cmat  ,&n, rvectors_ptr ,&n); // a- >r
-   magma_dprint(5,5, rvectors_ptr , n);
 
 
-   std::cout << " --------- " << n << std::endl;
 
    magma_free_cpu  (h_work); 
    magma_free_cpu  (tau); 

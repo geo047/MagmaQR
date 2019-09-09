@@ -1,9 +1,8 @@
 * installing *source* package ‘MagmaQR’ ...
 ** using staged installation
 ** libs
-icpc -std=gnu++11 -I"/apps/R/3.6.1/lib64/R/include" -DNDEBUG -D_USE_RCPP=1 -I"/apps/R/3.6.1/lib64/R/library/Rcpp/include" -I/usr/local/include -I../inst/include -qopenmp  -fpic  -O3 -fopenmp -xHOST -fp-model precise  -c RcppExports.cpp -o RcppExports.o
-icpc -std=gnu++11 -I"/apps/R/3.6.1/lib64/R/include" -DNDEBUG -D_USE_RCPP=1 -I"/apps/R/3.6.1/lib64/R/library/Rcpp/include" -I/usr/local/include -I../inst/include -qopenmp  -fpic  -O3 -fopenmp -xHOST -fp-model precise  -c shmem_qr_client.cpp -o shmem_qr_client.o
-icpc -std=gnu++11 -shared -L/apps/R/3.6.1/lib64/R/lib -fPIC -fopenmp -Wl,--disable-new-dtags -Wl,--rpath -Wl,/apps/oracle/instantclient_12_1:/apps/zeromq/4.2.5/lib:/apps/R/3.6.1/lib64/R/lib:/apps/cuda/8.0.61/lib64:/apps/cuda/8.0.61/extras/CUPTI/lib64:/apps/icu/59.0/lib:/apps/xz/5.2.4/lib:/apps/tcltk/8.6.1/lib:/apps/gsl/2.1/lib:/apps/hdf5/1.8.16/lib:/apps/netcdf/4.3.3.1/lib:/apps/udunits/2.2.20/lib:/apps/openmpi/1.10.7/lib:/apps/geos/3.6.2/lib:/apps/glpk/4.60/lib:/apps/proj/4.9.2/lib:/apps/gdal/2.0.1/lib:/apps/intel/mkl/2017.2.174/compilers_and_libraries_2017.2.174/linux/mkl/../compiler/lib/intel64:/apps/intel/mkl/2017.2.174/compilers_and_libraries_2017.2.174/linux/mkl/../compiler/lib/intel64_lin:/apps/intel/mkl/2017.2.174/compilers_and_libraries_2017.2.174/linux/mkl/lib/intel64_lin:/apps/intel/fc/16.0.4.258/compiler/lib/intel64:/apps/intel/cc/16.0.4.258/tbb/lib/intel64/gcc4.4:/apps/intel/cc/16.0.4.258/compiler/lib/intel64:/opt/intel/mic/coi/device-linux-release/lib:/opt/intel/mic/myo/lib:/cm/local/apps/cuda-driver/libs/current/lib64:/cm/shared/apps/slurm/current/lib64/slurm:/cm/shared/apps/slurm/current/lib64 -L/apps/tcltk/8.6.1 -o MagmaQR.so RcppExports.o shmem_qr_client.o -L/apps/R/3.6.1/lib64/R/lib -lRlapack -L/apps/R/3.6.1/lib64/R/lib -lRblas -lifport -lifcoremt_pic -limf -lsvml -lm -lipgo -liomp5 -lirc -lpthread -lirc_s -ldl -L/apps/R/3.6.1/lib64/R/lib -lR
+make: Nothing to be done for 'all'.
+make: 'symbols.rds' is up to date.
 installing to /home/geo047/Magma/MagmaQR/MagmaQR.Rcheck/00LOCK-MagmaQR/00new/MagmaQR/libs
 ** R
 ** inst

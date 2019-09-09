@@ -58,110 +58,40 @@ mv qr_server.exe ../bin
 > 
 > # setup
 > set.seed(101)
-> n <- 200
+> n <- 6000
 > ngpu <- 1
-> K <- matrix(sample(c(0,1), n*n, TRUE ), nrow=n)
-> res  <- tcrossprod(K)
+> res  <- matrix(sample(1:1000, n*n, TRUE ), nrow=n)
+> #res  <- tcrossprod(K)
 > print(res[1:5,1:5])
      [,1] [,2] [,3] [,4] [,5]
-[1,]  100   52   52   50   48
-[2,]   52  104   56   54   55
-[3,]   52   56  106   52   44
-[4,]   50   54   52   97   43
-[5,]   48   55   44   43   93
+[1,]  841  320  932  586  632
+[2,]  825   66  198  423  637
+[3,]  430  879  601  828  218
+[4,]   95  745  669  998   24
+[5,]  209  704  655  657  215
 > 
 > # CPU based
 >  library(MagmaQR)
 >  MagmaQR::RunServer( matrixMaxDimension=n,  numGPUsWanted=ngpu, memName="/syevd_mem", semName="/syevd_sem", print=0)
 [1] 0
 > 
->   qGPU  <- MagmaQR::qr_mgpu(res)
-% MAGMA 2.5.1 alpha1 compiled for CUDA capability >= 3.0, 64-bit magma_int_t, 64-bit pointer.
-% CUDA runtime 9000, driver 10010. OpenMP threads 16. MKL 2017.0.2, MKL threads 16. 
-% device 0: Tesla P100-SXM2-16GB, 1480.5 MHz clock, 16280.9 MiB memory, capability 6.0
-% device 1: Tesla P100-SXM2-16GB, 1480.5 MHz clock, 16280.9 MiB memory, capability 6.0
-% device 2: Tesla P100-SXM2-16GB, 1480.5 MHz clock, 16280.9 MiB memory, capability 6.0
-% device 3: Tesla P100-SXM2-16GB, 1480.5 MHz clock, 16280.9 MiB memory, capability 6.0
-% Fri Sep  6 11:28:16 2019
- dA afer dgeqrf_gpu
-[
- 100.0000  52.0000  52.0000  50.0000  48.0000
-  52.0000 104.0000  56.0000  54.0000  55.0000
-  52.0000  56.0000 106.0000  52.0000  44.0000
-  50.0000  54.0000  52.0000  97.0000  43.0000
-  48.0000  55.0000  44.0000  43.0000  93.0000
-];
- dA afer dgeqrf_gpu
-[
-   1.0000   0.       0.       0.       0.    
-   0.0638   1.0000   0.       0.       0.    
-   0.0638   0.0387   1.0000   0.       0.    
-   0.0614   0.0383   0.0015   1.0000   0.    
-   0.0589   0.0579  -0.0517  -0.0167   1.0000
-];
- Q 
-[
-  -0.1399   0.5309   0.2810   0.1832   0.1503
-  -0.0728  -0.5282   0.3430   0.1682   0.2339
-  -0.0728  -0.0266  -0.5933   0.1690   0.1277
-  -0.0700  -0.0272   0.0273  -0.6294   0.1219
-  -0.0672  -0.0591   0.1193   0.0396  -0.6174
-];
-Q that is sitting on rectors_ptr
-> 
+>   qGPU  <- MagmaQR::qr_mgpu(res, printInfo=TRUE)
+ 3  4  5  6 > 
 >  ## CPU 
->  qCPU  <- qr.Q(qr(res))
+> # qCPU  <- qr.Q(qr(res))
 > 
 > 
 >    print(qGPU[1:5, 1:5])
-            [,1]        [,2]        [,3]        [,4]       [,5]
-[1,] -0.13994407  0.53086241  0.28100459  0.18323407  0.1502693
-[2,] -0.07277091 -0.52822483  0.34297703  0.16817035  0.2339331
-[3,] -0.07277091 -0.02659908 -0.59333459  0.16901226  0.1277018
-[4,] -0.06997203 -0.02718381  0.02729008 -0.62937362  0.1219206
-[5,] -0.06717315 -0.05912016  0.11925483  0.03958115 -0.6174042
+     [,1] [,2] [,3] [,4] [,5]
+[1,]  841  320  932  586  632
+[2,]  825   66  198  423  637
+[3,]  430  879  601  828  218
+[4,]   95  745  669  998   24
+[5,]  209  704  655  657  215
 >    print("---------------------")
 [1] "---------------------"
 >    print(qCPU[1:5, 1:5])
-            [,1]        [,2]        [,3]        [,4]       [,5]
-[1,] -0.13994407  0.53086241  0.28100459  0.18323407  0.1502693
-[2,] -0.07277091 -0.52822483  0.34297703  0.16817035  0.2339331
-[3,] -0.07277091 -0.02659908 -0.59333459  0.16901226  0.1277018
-[4,] -0.06997203 -0.02718381  0.02729008 -0.62937362  0.1219206
-[5,] -0.06717315 -0.05912016  0.11925483  0.03958115 -0.6174042
-> 
-> 
->    print(c("Test Sum = ", sum(qGPU - qCPU) ))
-[1] "Test Sum = "          "4.16066707608859e-12"
-> 
->  
->   StopServer()  # Client signals to server to terminate
+Error in print(qCPU[1:5, 1:5]) : object 'qCPU' not found
+Execution halted
  MAGMA_EVD_CLIENT Info: CSharedMemory->ExitServer() has just requested server to exit 
-[
-  -0.1399   0.5309   0.2810   0.1832   0.1503
-  -0.0728  -0.5282   0.3430   0.1682   0.2339
-  -0.0728  -0.0266  -0.5933   0.1690   0.1277
-  -0.0700  -0.0272   0.0273  -0.6294   0.1219
-  -0.0672  -0.0591   0.1193   0.0396  -0.6174
-];
  MAGMA_EVD_CLIENT Info: Calling destructor of shrd_client object
->   
-> 
-> 
-> 
-> 
-> ### * <FOOTER>
-> ###
-> cleanEx()
-> options(digits = 7L)
-> base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  2.677 0.222 6.592 1.757 0.355 
-> grDevices::dev.off()
-null device 
-          1 
-> ###
-> ### Local variables: ***
-> ### mode: outline-minor ***
-> ### outline-regexp: "\\(> \\)?### [*]+" ***
-> ### End: ***
-> quit('no')

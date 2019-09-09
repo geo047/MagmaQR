@@ -19,6 +19,7 @@ Source packages should not contain undeclared executable files.
 See section ‘Package structure’ in the ‘Writing R Extensions’ manual.
 * checking for hidden files and directories ... NOTE
 Found the following hidden files and directories:
+  inst/include/.CSharedRegion.h.swp
   src/.gitignore
   .git
 These were most likely included in error. See section ‘Package
@@ -145,7 +146,59 @@ GNU make is a SystemRequirements.
 * checking for portable use of $(BLAS_LIBS) and $(LAPACK_LIBS) ... OK
 * checking include directives in Makefiles ... OK
 * checking compiled code ... OK
-* checking examples ... OK
+* checking examples ... ERROR
+Running examples in ‘MagmaQR-Ex.R’ failed
+The error most likely occurred in:
+
+> ### Name: MagmaQR
+> ### Title: MagmaQR - provides a fast replacement for the qr() function,
+> ###   using GPU based MAGMA library routine.
+> ### Aliases: MagmaQR
+> ### Keywords: MagmaQR, magma, MAGMA, QR, GPU
+> 
+> ### ** Examples
+> 
+> # setup
+> 
+> # setup
+> set.seed(101)
+> n <- 6000
+> ngpu <- 1
+> res  <- matrix(sample(1:1000, n*n, TRUE ), nrow=n)
+> #res  <- tcrossprod(K)
+> print(res[1:5,1:5])
+     [,1] [,2] [,3] [,4] [,5]
+[1,]  841  320  932  586  632
+[2,]  825   66  198  423  637
+[3,]  430  879  601  828  218
+[4,]   95  745  669  998   24
+[5,]  209  704  655  657  215
+> 
+> # CPU based
+>  library(MagmaQR)
+>  MagmaQR::RunServer( matrixMaxDimension=n,  numGPUsWanted=ngpu, memName="/syevd_mem", semName="/syevd_sem", print=0)
+[1] 0
+> 
+>   qGPU  <- MagmaQR::qr_mgpu(res, printInfo=TRUE)
+ 3  4  5  6 > 
+>  ## CPU 
+> # qCPU  <- qr.Q(qr(res))
+> 
+> 
+>    print(qGPU[1:5, 1:5])
+     [,1] [,2] [,3] [,4] [,5]
+[1,]  841  320  932  586  632
+[2,]  825   66  198  423  637
+[3,]  430  879  601  828  218
+[4,]   95  745  669  998   24
+[5,]  209  704  655  657  215
+>    print("---------------------")
+[1] "---------------------"
+>    print(qCPU[1:5, 1:5])
+Error in print(qCPU[1:5, 1:5]) : object 'qCPU' not found
+Execution halted
+ MAGMA_EVD_CLIENT Info: CSharedMemory->ExitServer() has just requested server to exit 
+ MAGMA_EVD_CLIENT Info: Calling destructor of shrd_client object
 * checking PDF version of manual ... OK
 * DONE
-Status: 7 WARNINGs, 6 NOTEs
+Status: 1 ERROR, 7 WARNINGs, 6 NOTEs

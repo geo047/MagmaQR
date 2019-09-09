@@ -201,6 +201,8 @@ Rcpp::NumericMatrix  qr_mgpu(Rcpp::NumericMatrix matrix,  bool printInfo=true )
 {
   std::stringstream ss_string;
   
+  _PRINTSTD << " 3 "   ;
+  std::flush(_PRINTSTD) ;
 
   
   if (shrd_client != NULL)
@@ -227,13 +229,19 @@ Rcpp::NumericMatrix  qr_mgpu(Rcpp::NumericMatrix matrix,  bool printInfo=true )
         
       shrd_client->SetCurrentMatrixSizeAndVectorsRequest(matrix.ncol(), true) ;  //true for withVectors
       size_t numbytes = matrix.ncol() * matrix.ncol() * sizeof(double) ;
+  _PRINTSTD << " 4 "   ;
+  std::flush(_PRINTSTD) ;
          
       
       // Copy memory from R matrix to shared memory region
       shrd_client->copy_matrix_into_shmem(matrix.begin(), numbytes ) ;
+  _PRINTSTD << " 5 "   ;
+  std::flush(_PRINTSTD) ;
       //  *** Call sem_post() so that the server can then move on to do processing 
    
       sem_post(shrd_client->_sem_id);
+  _PRINTSTD << " 6 "   ;
+  std::flush(_PRINTSTD) ;
 
       
       sleep(1) ;  // Give the server some time to acknowledge the change in semaphre state.
